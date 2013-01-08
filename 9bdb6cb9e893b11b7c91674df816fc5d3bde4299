@@ -1,0 +1,8 @@
+Change-Id: I9bdb6cb9e893b11b7c91674df816fc5d3bde4299
+Code-Review+2: Steve Kondik <shade@chemlab.org>
+Verified+1: Steve Kondik <shade@chemlab.org>
+Submitted-by: Steve Kondik <shade@chemlab.org>
+Submitted-at: Tue, 08 Jan 2013 10:03:40 -0800
+Reviewed-on: http://review.cyanogenmod.org/29660
+Project: CyanogenMod/android_hardware_qcom_audio-caf
+Branch: refs/heads/cm-10.1
