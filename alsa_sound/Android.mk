@@ -34,6 +34,10 @@ ifeq ($(strip $(BOARD_HAVE_LOW_LATENCY_AUDIO)),true)
   LOCAL_CFLAGS += -DQCOM_LOW_LATENCY_AUDIO_ENABLED
 endif
 
+ifeq ($(strip $(BOARD_USES_SPEAKERPHONE_BACKMIC)),true)
+LOCAL_CFLAGS += -DUSE_SPEAKERPHONE_BACKMIC
+endif
+
 #Dual MIC solution(Fluence) feature in Built-in MIC used scenarioes.
 # 1. Handset
 # 2. 3-Pole Headphones

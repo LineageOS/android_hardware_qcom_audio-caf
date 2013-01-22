@@ -477,7 +477,11 @@ void ALSADevice::switchDevice(alsa_handle_t *handle, uint32_t devices, uint32_t 
             devices = devices | (AudioSystem::DEVICE_IN_BUILTIN_MIC |
                       AudioSystem::DEVICE_OUT_EARPIECE);
         } else if (devices & AudioSystem::DEVICE_OUT_SPEAKER) {
+#ifdef USE_SPEAKERPHONE_BACKMIC
+            devices = devices | (AudioSystem::DEVICE_IN_BACK_MIC |
+#else
             devices = devices | (AudioSystem::DEVICE_IN_BUILTIN_MIC |
+#endif
                        AudioSystem::DEVICE_OUT_SPEAKER);
         } else if ((devices & AudioSystem::DEVICE_OUT_BLUETOOTH_SCO) ||
                    (devices & AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_HEADSET) ||
@@ -1535,7 +1539,10 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
                 return strdup(SND_USE_CASE_DEV_EARPIECE); /* HANDSET RX */
             }
         } else if (devices & AudioSystem::DEVICE_OUT_SPEAKER) {
-            return strdup(SND_USE_CASE_DEV_SPEAKER); /* SPEAKER RX */
+            if (mCallMode == AUDIO_MODE_IN_CALL) {
+                return strdup(SND_USE_CASE_DEV_VOC_SPEAKER); /* Voice SPEAKER RX */
+            } else
+                return strdup(SND_USE_CASE_DEV_SPEAKER); /* SPEAKER RX */
         } else if ((devices & AudioSystem::DEVICE_OUT_WIRED_HEADSET) ||
                    (devices & AudioSystem::DEVICE_OUT_WIRED_HEADPHONE)) {
             if (mDevSettingsFlag & ANC_FLAG) {
@@ -1589,7 +1596,10 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
             return strdup(SND_USE_CASE_DEV_FM_TX); /* FM Tx */
 #endif
         } else if (devices & AudioSystem::DEVICE_OUT_DEFAULT) {
-            return strdup(SND_USE_CASE_DEV_SPEAKER); /* SPEAKER RX */
+            if (mCallMode == AUDIO_MODE_IN_CALL) {
+                return strdup(SND_USE_CASE_DEV_VOC_SPEAKER); /* Voice SPEAKER RX */
+            } else
+                return strdup(SND_USE_CASE_DEV_SPEAKER); /* SPEAKER RX */
         } else {
             ALOGD("No valid output device: %u", devices);
         }
