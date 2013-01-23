@@ -20,6 +20,10 @@ ifeq ($(BOARD_HAVE_SAMSUNG_AUDIO),true)
     LOCAL_CFLAGS += -DSAMSUNG_AUDIO
 endif
 
+ifeq ($(BOARD_HAVE_OLD_ION_API), true)
+    LOCAL_CFLAGS += -DOLD_ION_API
+endif
+
 LOCAL_SHARED_LIBRARIES := \
     libcutils       \
     libutils        \
