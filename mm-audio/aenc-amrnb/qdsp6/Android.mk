@@ -24,6 +24,8 @@ endif
 include $(CLEAR_VARS)
 
 libOmxAmrEnc-inc       := $(LOCAL_PATH)/inc
+libOmxAmrEnc-inc       += hardware/qcom/media/mm-core/inc
+libOmxAmrEnc-inc       += hardware/qcom/audio-caf/mm-audio/aenc-aac/qdsp6/inc
 libOmxAmrEnc-inc       += $(TARGET_OUT_HEADERS)/mm-core/omxcore
 
 LOCAL_MODULE            := libOmxAmrEnc
