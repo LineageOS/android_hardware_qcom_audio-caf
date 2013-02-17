@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX//94E\u003d",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 2260
+      },
+      "writtenOn": "2013-02-17T21:49:59Z",
+      "side": 1,
+      "message": "I\u0027d do either:\n\nif (...)\n    return strdup(...);\nelse\n    return strdup(...);\n\nor\n\nif (...) {\n    return strdup(...);\n} else {\n    return strdup(...);\n}\n\nInconsistently having brances only on the \"then\" clause, but not the \"else\" clause could lead to issues should someone modify this further down the road and not notice.\n\nAs for brances vs. no-brances, it seems that brances on single-statement clauses are generally used/preferred in this file, but I\u0027m personally OK with either style, whichever looks better I guess.",
+      "revId": "3d5d7ac05c57504d8b8e9cf1b389cc45dc9b0a6a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX//94A\u003d",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 2260
+      },
+      "writtenOn": "2013-02-17T21:49:59Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "3d5d7ac05c57504d8b8e9cf1b389cc45dc9b0a6a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
