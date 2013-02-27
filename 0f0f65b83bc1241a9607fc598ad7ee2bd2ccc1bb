@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX//6j0\u003d",
+        "filename": "alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2013-02-27T14:14:39Z",
+      "side": 1,
+      "message": "mispelling in the ifdef here, although it\u0027s unrelated to the current patch",
+      "revId": "0f0f65b83bc1241a9607fc598ad7ee2bd2ccc1bb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
