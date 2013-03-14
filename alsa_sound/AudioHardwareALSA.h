@@ -59,6 +59,8 @@ class AudioHardwareALSA;
 #define ALSA_HARDWARE_MODULE_ID "alsa"
 #define ALSA_HARDWARE_NAME      "alsa"
 
+#define MAX_SOUND_CARDS 4
+
 #define DEFAULT_SAMPLING_RATE 48000
 #define DEFAULT_CHANNEL_MODE  2
 #define VOICE_SAMPLING_RATE   8000
@@ -283,6 +285,8 @@ public:
     ALSADevice();
     virtual ~ALSADevice();
 //    status_t init(alsa_device_t *module, ALSAHandleList &list);
+    struct snd_ctl_card_info *getSoundCardInfo();
+    status_t initCheck();
     status_t open(alsa_handle_t *handle);
     status_t close(alsa_handle_t *handle, uint32_t vsid = 0);
     status_t standby(alsa_handle_t *handle);
@@ -378,6 +382,10 @@ private:
 #ifdef SEPERATED_AUDIO_INPUT
     int mInputSource;
 #endif
+
+    struct snd_ctl_card_info mSndCardInfo;
+    status_t mStatus;
+
 //   ALSAHandleList  *mDeviceList;
 
     struct proxy_params {
