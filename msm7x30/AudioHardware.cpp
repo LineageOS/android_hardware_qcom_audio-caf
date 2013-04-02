@@ -1,6 +1,7 @@
 /*
 ** Copyright 2008, The Android Open-Source Project
 ** Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
+** Copyright (c) 2011-2013, The CyanogenMod Project
 ** Not a Contribution, Apache license notifications and license are retained
 ** for attribution purposes only.
 **
@@ -889,11 +890,17 @@ status_t AudioHardware::setParameters(const String8& keyValuePairs)
     const char BT_NREC_KEY[] = "bt_headset_nrec";
     const char BT_NAME_KEY[] = "bt_headset_name";
     const char BT_NREC_VALUE_ON[] = "on";
+#ifdef HAVE_SEMC_FM_RADIO
+    const char FM_NAME_KEY[] = "fm_radio_active";
+    const char FM_VALUE_ON[] = "on";
+    const char FM_VALUE_OFF[] = "off";
+#else
     const char FM_NAME_KEY[] = "FMRadioOn";
     const char FM_VALUE_HANDSET[] = "handset";
     const char FM_VALUE_SPEAKER[] = "speaker";
     const char FM_VALUE_HEADSET[] = "headset";
     const char FM_VALUE_FALSE[] = "false";
+#endif
 
 
     ALOGV("setParameters() %s", keyValuePairs.string());
@@ -954,6 +961,22 @@ status_t AudioHardware::setParameters(const String8& keyValuePairs)
           (cur_tx == DEVICE_HEADSET_TX))
           doRouting(NULL);
     }
+
+#ifdef HAVE_SEMC_FM_RADIO
+    key = String8(FM_NAME_KEY);
+    if (param.get(key,value) == NO_ERROR) {
+        if (value == FM_VALUE_ON) {
+            ALOGI("FM radio enabled");
+            fmState = FM_ON;
+            doRouting(NULL);
+        } else if (value == FM_VALUE_OFF) {
+            ALOGI("FM radio disabled");
+            fmState = FM_OFF;
+            doRouting(NULL);
+        }
+    }
+#endif
+
     return NO_ERROR;
 }
 
@@ -1093,13 +1116,25 @@ status_t AudioHardware::setVoiceVolume(float v)
 #ifdef QCOM_FM_ENABLED
 status_t AudioHardware::setFmVolume(float v)
 {
-    int vol = android::AudioSystem::logToLinear( v );
+    int vol;
+#ifdef HAVE_SEMC_FM_RADIO
+    if (v < 0.0) {
+        ALOGW("setFmVolume(%f) under 0.0, assuming 0.0\n", v);
+        v = 0.0;
+    } else if (v > 1.0) {
+        ALOGW("setFmVolume(%f) over 1.0, assuming 1.0\n", v);
+        v = 1.0;
+    }
+    vol = lrint(v * 100.0);
+#else
+    vol = android::AudioSystem::logToLinear( v );
     if ( vol > 100 ) {
         vol = 100;
     }
     else if ( vol < 0 ) {
         vol = 0;
     }
+#endif
     ALOGV("setFmVolume(%f)\n", v);
     Routing_table* temp = NULL;
     temp = getNodeByStreamType(FM_RADIO);
@@ -1220,7 +1255,8 @@ static status_t do_route_audio_rpc(uint32_t device,
         new_rx_device = DEVICE_HDMI_STERO_RX;
         new_tx_device = cur_tx;
         ALOGV("In DEVICE_HDMI_STERO_RX and cur_tx");
-    }else if(device == SND_DEVICE_FM_TX){
+    }
+    else if(device == SND_DEVICE_FM_TX) {
         new_rx_device = DEVICE_FMRADIO_STEREO_RX;
         new_tx_device = cur_tx;
         ALOGV("In DEVICE_FMRADIO_STEREO_RX and cur_tx");
@@ -1369,6 +1405,9 @@ status_t AudioHardware::doRouting(AudioStreamInMSM72xx *input, int outputDevice)
 #ifdef QCOM_FM_ENABLED
            || (inputDevice == AudioSystem::DEVICE_IN_FM_RX)
            || (inputDevice == AudioSystem::DEVICE_IN_FM_RX_A2DP)
+#ifdef HAVE_SEMC_FM_RADIO
+           || ((mFmFd != -1) && (fmState == FM_ON))
+#endif
 #endif
           )
             return NO_ERROR;
@@ -1514,6 +1553,22 @@ status_t AudioHardware::doRouting(AudioStreamInMSM72xx *input, int outputDevice)
 #endif
 
 #ifdef QCOM_FM_ENABLED
+#ifdef HAVE_SEMC_FM_RADIO
+    if ((fmState == FM_ON) && (mFmFd == -1) && !isInCall() && (mMode != AudioSystem::MODE_RINGTONE))
+    {
+        /* FIXME force FM audio to HEADSET */
+        ALOGI("Routing audio to SEMC FM Wired Headset");
+        if (outputDevices & AudioSystem::DEVICE_OUT_WIRED_HEADPHONE)
+            sndDevice = SND_DEVICE_NO_MIC_HEADSET;
+        else
+            sndDevice = SND_DEVICE_HEADSET;
+
+        enableFM(sndDevice);
+    }
+    if (((fmState != FM_ON) && (mFmFd != -1)) || isInCall() || (mMode == AudioSystem::MODE_RINGTONE)){
+        disableFM();
+    }
+#else
     if ((outputDevices & AudioSystem::DEVICE_OUT_FM) && (mFmFd == -1)){
         enableFM(sndDevice);
     }
@@ -1521,6 +1576,8 @@ status_t AudioHardware::doRouting(AudioStreamInMSM72xx *input, int outputDevice)
         disableFM();
     }
 #endif
+#endif
+
     if ((CurrentComboDeviceData.DeviceId == INVALID_DEVICE) &&
         (sndDevice == SND_DEVICE_FM_TX_AND_SPEAKER )){
         /* speaker rx is already enabled change snd device to the fm tx
@@ -2903,7 +2960,7 @@ ssize_t AudioHardware::AudioStreamInMSM72xx::read( void* buffer, ssize_t bytes)
         }
         else
 #endif
-{
+        {
             hw->mLock.unlock();
             if(ioctl(mFd, AUDIO_GET_SESSION_ID, &dec_id)) {
                 ALOGE("AUDIO_GET_SESSION_ID failed*********");
