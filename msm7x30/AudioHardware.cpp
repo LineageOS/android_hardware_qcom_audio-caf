@@ -45,7 +45,9 @@ extern "C" {
 #include "AudioHardware.h"
 //#include <media/AudioSystem.h>
 //#include <media/AudioRecord.h>
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 #include <linux/msm_audio_mvs.h>
+#endif
 
 #define LOG_SND_RPC 0  // Set to 1 to log sound RPC's
 
@@ -551,10 +553,11 @@ AudioHardware::AudioHardware() :
     mHACSetting(false), mBluetoothIdTx(0), mBluetoothIdRx(0),
     mOutput(0), mBluetoothVGS(false), mCurSndDevice(SND_DEVICE_CURRENT),
     mVoiceVolume(1), mTtyMode(TTY_OFF), mDualMicEnabled(false),
-    mRecordState(false), mEffectEnabled(false), mFmFd(-1),
-    mVoipFd(-1), mVoipInActive(false), mVoipOutActive(false), mDirectOutput(0)
+    mRecordState(false), mEffectEnabled(false), mFmFd(-1)
+#ifdef WITH_QCOM_VOIP_OVER_MVS
+    ,mVoipFd(-1), mVoipInActive(false), mVoipOutActive(false), mDirectOutput(0)
+#endif
 {
-
         int (*snd_get_num)();
         int (*snd_get_bt_endpoint)(msm_bt_endpoint *);
         int (*set_acoustic_parameters)();
@@ -849,13 +852,18 @@ AudioStreamOut* AudioHardware::openOutputStream(
         Mutex::Autolock lock(mLock);
 
         // only one output stream allowed
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         if (mOutput && !(flags & AUDIO_OUTPUT_FLAG_DIRECT) ) {
+#else
+        if (mOutput) {
+#endif
             if (status) {
                 *status = INVALID_OPERATION;
             }
             ALOGE(" AudioHardware::openOutputStream Only one output stream allowed \n");
             return 0;
         }
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         status_t lStatus;
         if(flags & AUDIO_OUTPUT_FLAG_DIRECT) {
             if(mDirectOutput == 0) {
@@ -904,6 +912,21 @@ AudioStreamOut* AudioHardware::openOutputStream(
             return mOutput;
          }
      }
+#else
+        // create new output stream
+        AudioStreamOutMSM72xx* out = new AudioStreamOutMSM72xx();
+        status_t lStatus = out->set(this, devices, format, channels, sampleRate);
+        if (status) {
+            *status = lStatus;
+        }
+        if (lStatus == NO_ERROR) {
+            mOutput = out;
+        } else {
+            delete out;
+        }
+    }
+    return mOutput;
+#endif
 }
 
 #ifdef QCOM_TUNNEL_LPA_ENABLED
@@ -932,18 +955,28 @@ AudioStreamOut* AudioHardware::openOutputSession(
 
 void AudioHardware::closeOutputStream(AudioStreamOut* out) {
     Mutex::Autolock lock(mLock);
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     if ((mOutput == 0 && mDirectOutput == 0) || ((mOutput != out) && (mDirectOutput != out))){
+#else
+    if (mOutput == 0 || mOutput != out) {
+#endif
         ALOGW("Attempt to close invalid output stream");
     }
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     else if (mOutput == out) {
+#else
+    else {
+#endif
         delete mOutput;
         mOutput = 0;
     }
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     else if (mDirectOutput == out){
         ALOGV(" deleting  mDirectOutput \n");
         delete mDirectOutput;
         mDirectOutput = 0;
     }
+#endif
 }
 
 AudioStreamIn* AudioHardware::openInputStream(
@@ -960,6 +993,7 @@ AudioStreamIn* AudioHardware::openInputStream(
 
     mLock.lock();
 
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     AudioStreamIn *in;
     if((devices == AudioSystem::DEVICE_IN_COMMUNICATION)&& (*sampleRate == 8000)) {
         ALOGV("Create Audio stream Voip \n");
@@ -976,7 +1010,19 @@ AudioStreamIn* AudioHardware::openInputStream(
             return 0;
         }
         mVoipInputs.add(inVoip);
+#else
+        AudioStreamInMSM72xx* in = new AudioStreamInMSM72xx();
+        status_t lStatus = in->set(this, devices, format, channels, sampleRate, acoustic_flags);
+        if (status) {
+            *status = lStatus;
+        }
+        if (lStatus != NO_ERROR) {
+#endif
         mLock.unlock();
+#ifndef WITH_QCOM_VOIP_OVER_MVS
+        delete in;
+        return 0;
+#else
         return inVoip;
     } else {
         AudioStreamInMSM72xx* in72xx = new AudioStreamInMSM72xx();
@@ -993,19 +1039,34 @@ AudioStreamIn* AudioHardware::openInputStream(
         mInputs.add(in72xx);
         mLock.unlock();
         return in72xx;
+#endif
     }
+#ifndef WITH_QCOM_VOIP_OVER_MVS
+    mInputs.add(in);
+    mLock.unlock();
+
+    return in;
+#endif
 }
 
 void AudioHardware::closeInputStream(AudioStreamIn* in) {
     Mutex::Autolock lock(mLock);
 
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     ssize_t index = -1;
     if((index = mInputs.indexOf((AudioStreamInMSM72xx *)in)) >= 0) {
         ALOGV("closeInputStream AudioStreamInMSM72xx");
+#else
+    ssize_t index = mInputs.indexOf((AudioStreamInMSM72xx *)in);
+    if (index < 0) {
+        ALOGW("Attempt to close invalid input stream");
+    } else {
+#endif
         mLock.unlock();
         delete mInputs[index];
         mLock.lock();
         mInputs.removeAt(index);
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     } else if ((index = mVoipInputs.indexOf((AudioStreamInVoip *)in)) >= 0) {
         ALOGV("closeInputStream mVoipInputs");
         mLock.unlock();
@@ -1014,6 +1075,7 @@ void AudioHardware::closeInputStream(AudioStreamIn* in) {
         mVoipInputs.removeAt(index);
     } else {
         ALOGE("Attempt to close invalid input stream");
+#endif
      }
 }
 
@@ -1271,10 +1333,12 @@ size_t AudioHardware::getInputBufferSize(uint32_t sampleRate, int format, int ch
        return 350*channelCount;
     else if (format == AudioSystem::AAC)
        return 2048;
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     else if (sampleRate == AUDIO_HW_VOIP_SAMPLERATE_8K)
        return 320*channelCount;
     else if (sampleRate == AUDIO_HW_VOIP_SAMPLERATE_16K)
        return 640*channelCount;
+#endif
     else
     {
         if (build_id[17] == '1') {
@@ -1745,10 +1809,14 @@ status_t AudioHardware::doAudioRouteOrMuteHTC(uint32_t device)
         }
     }
 
-    ALOGV("doAudioRouteOrMuteHTC() rx acdb %d, tx acdb %d", rx_acdb_id, tx_acdb_id);
+    ALOGV("doAudioRouteOrMuteHTC: rx acdb %d, tx acdb %d", rx_acdb_id, tx_acdb_id);
     ALOGV("doAudioRouteOrMuteHTC() device %x, mMode %d, mMicMute %d", device, mMode, mMicMute);
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     int earMute = (mMode != AudioSystem::MODE_IN_CALL) && (mMode != AudioSystem::MODE_IN_COMMUNICATION);
     return do_route_audio_rpc(device,earMute, mMicMute, rx_acdb_id, tx_acdb_id);
+#else
+    return do_route_audio_rpc(device, !isInCall(), mMicMute, rx_acdb_id, tx_acdb_id);
+#endif
 }
 
 // always call with mutex held
@@ -1769,9 +1837,15 @@ status_t AudioHardware::doAudioRouteOrMute(uint32_t device)
     status_t ret = NO_ERROR;
 
     if (!isHTCPhone) {
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         ALOGV("doAudioRouteOrMute() device %d, mMode %d, mMicMute %d",
                 device, mMode, mMicMute);
         ret = do_route_audio_rpc(device, !isInCall(), mMicMute, 0, 0);
+#else
+        ALOGV("doAudioRouteOrMute() device %d, mMode %d, mMicMute %d",
+                device, mMode, mMicMute);
+        ret = do_route_audio_rpc(device, !isInCall(), mMicMute, 0, 0);
+#endif
     } else
         ret = doAudioRouteOrMuteHTC(device);
 
@@ -3061,6 +3135,7 @@ status_t AudioHardware::AudioStreamOutMSM72xx::getRenderPosition(uint32_t *dspFr
     return INVALID_OPERATION;
 }
 
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 AudioHardware::AudioStreamOutDirect::AudioStreamOutDirect() :
     mHardware(0), mFd(-1), mStartCount(0), mRetryCount(0), mStandby(true), mDevices(0),mChannels(AudioSystem::CHANNEL_OUT_MONO),
     mSampleRate(AUDIO_HW_VOIP_SAMPLERATE_8K), mBufferSize(AUDIO_HW_VOIP_BUFFERSIZE_8K)
@@ -3379,7 +3454,7 @@ status_t AudioHardware::AudioStreamOutDirect::getRenderPosition(uint32_t *dspFra
     //TODO: enable when supported by driver
     return INVALID_OPERATION;
 }
-
+#endif
 
 // ----------------------------------------------------------------------------
 
@@ -4270,6 +4345,7 @@ AudioHardware::AudioStreamInMSM72xx *AudioHardware::getActiveInput_l()
     return NULL;
 }
 
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 status_t AudioHardware::setupDeviceforVoipCall(bool value)
 {
 
@@ -4630,7 +4706,7 @@ AudioHardware::AudioStreamInVoip*AudioHardware::getActiveVoipInput_l()
 
     return NULL;
 }
-
+#endif
 
 // ----------------------------------------------------------------------------
 

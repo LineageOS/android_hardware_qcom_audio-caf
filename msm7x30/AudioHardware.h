@@ -299,8 +299,10 @@ class AudioHardware : public  AudioHardwareBase
     class AudioSessionOutMSM7xxx;
 #endif /* QCOM_TUNNEL_LPA_ENABLED */
     class AudioStreamInMSM72xx;
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     class AudioStreamOutDirect;
     class AudioStreamInVoip;
+#endif
 
 public:
                         AudioHardware();
@@ -383,7 +385,9 @@ private:
     void        aic3254_powerdown();
     int         aic3254_set_volume(int volume);
     AudioStreamInMSM72xx*   getActiveInput_l();
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     AudioStreamInVoip* getActiveVoipInput_l();
+#endif
     FILE *fp;
 
     class AudioStreamOutMSM72xx : public AudioStreamOut {
@@ -419,6 +423,7 @@ private:
                 bool        mStandby;
                 uint32_t    mDevices;
     };
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     class AudioStreamOutDirect : public AudioStreamOut {
     public:
                             AudioStreamOutDirect();
@@ -458,6 +463,7 @@ private:
                 int         mFormat;
 
     };
+#endif
 #ifdef QCOM_TUNNEL_LPA_ENABLED
     class AudioSessionOutMSM7xxx : public AudioStreamOut {
     public:
@@ -540,6 +546,7 @@ private:
                 uint32_t    mFmRec;
     };
 
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     class AudioStreamInVoip : public AudioStreamInMSM72xx  { //*/ AudioStreamIn {
     public:
         enum input_state {
@@ -585,6 +592,7 @@ private:
                 uint32_t    mFmRec;
                 int         mSessionId;
     };
+#endif
             static const uint32_t inputSamplingRates[];
             bool        mInit;
             bool        mMicMute;
@@ -606,21 +614,26 @@ private:
             char        mEffect[10];
             AudioStreamOutMSM72xx*  mOutput;
             SortedVector <AudioStreamInMSM72xx*>   mInputs;
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             AudioStreamOutDirect*  mDirectOutput;
+#endif
             int mCurSndDevice;
             int m7xsnddriverfd;
             bool    mDualMicEnabled;
             int     mTtyMode;
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             SortedVector <AudioStreamInVoip*>   mVoipInputs;
+#endif
 
             friend class AudioStreamInMSM72xx;
             Mutex       mLock;
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             int mVoipFd;
             bool mVoipInActive;
             bool mVoipOutActive;
             Mutex mVoipLock;
             int mVoipSession;
-
+#endif
 };
 
 // ----------------------------------------------------------------------------
