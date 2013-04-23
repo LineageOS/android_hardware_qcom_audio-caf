@@ -1004,6 +1004,9 @@ audio_devices_t AudioPolicyManager::getDeviceForInputSource(int inputSource)
     case AUDIO_SOURCE_DEFAULT:
     case AUDIO_SOURCE_MIC:
     case AUDIO_SOURCE_VOICE_RECOGNITION:
+#ifndef WITH_QCOM_VOIP_OVER_MVS
+    case AUDIO_SOURCE_VOICE_COMMUNICATION:
+#endif
         if (mForceUse[AudioSystem::FOR_RECORD] == AudioSystem::FORCE_BT_SCO &&
             mAvailableInputDevices & AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET) {
             device = AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET;
@@ -1013,9 +1016,11 @@ audio_devices_t AudioPolicyManager::getDeviceForInputSource(int inputSource)
             device = AUDIO_DEVICE_IN_BUILTIN_MIC;
         }
         break;
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     case AUDIO_SOURCE_VOICE_COMMUNICATION:
         device = AUDIO_DEVICE_IN_COMMUNICATION;
         break;
+#endif
 
     case AUDIO_SOURCE_CAMCORDER:
         if (mAvailableInputDevices & AUDIO_DEVICE_IN_BACK_MIC) {
