@@ -74,6 +74,8 @@ LOCAL_C_INCLUDES += hardware/libhardware_legacy/include
 LOCAL_C_INCLUDES += frameworks/base/include
 LOCAL_C_INCLUDES += system/core/include
 
+
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
 include $(BUILD_SHARED_LIBRARY)
 
 # The audio policy is implemented on top of legacy policy code
