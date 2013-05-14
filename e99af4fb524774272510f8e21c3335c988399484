@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "hiK26j0",
+        "filename": "msm7x30/AudioHardware.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 19
+      },
+      "writtenOn": "2013-05-14T23:17:26Z",
+      "side": 1,
+      "message": "mVoiceVolume mCurSndDevice are not needed ?",
+      "revId": "e99af4fb524774272510f8e21c3335c988399484",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "huKGwmQ",
+        "filename": "msm7x30/AudioHardware.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 19
+      },
+      "writtenOn": "2013-05-14T23:17:26Z",
+      "side": 1,
+      "message": "remove this ifdef, this is needed for all",
+      "revId": "e99af4fb524774272510f8e21c3335c988399484",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
