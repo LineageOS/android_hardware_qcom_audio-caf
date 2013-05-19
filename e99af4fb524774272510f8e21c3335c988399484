@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "hpF85iE",
+        "filename": "msm7x30/AudioHardware.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 19
+      },
+      "writtenOn": "2013-05-19T00:34:38Z",
+      "side": 1,
+      "message": "no\nmVoiceVolume is needed to restore volume level on all 7x30",
+      "parentUuid": "hqLOerI",
+      "revId": "e99af4fb524774272510f8e21c3335c988399484",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "huKGwmQ",
         "filename": "msm7x30/AudioHardware.cpp",
         "patchSetId": 3
