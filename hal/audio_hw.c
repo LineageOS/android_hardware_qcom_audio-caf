@@ -55,6 +55,10 @@
 #include "sound/compress_params.h"
 #include "sound/asound.h"
 
+#ifdef USES_AUDIO_AMPLIFIER
+#include <audio_amplifier.h>
+#endif
+
 #define COMPRESS_OFFLOAD_NUM_FRAGMENTS 4
 /* ToDo: Check and update a proper value in msec */
 #define COMPRESS_OFFLOAD_PLAYBACK_LATENCY 96
@@ -2911,6 +2915,10 @@ static int adev_set_mode(struct audio_hw_device *dev, audio_mode_t mode)
     pthread_mutex_lock(&adev->lock);
     if (adev->mode != mode) {
         ALOGD("%s mode %d\n", __func__, mode);
+#ifdef USES_AUDIO_AMPLIFIER
+        if (amplifier_set_mode(mode) != 0)
+            ALOGE("Failed setting amplifier mode");
+#endif
         adev->mode = mode;
     }
     pthread_mutex_unlock(&adev->lock);
@@ -3074,6 +3082,11 @@ static int adev_close(hw_device_t *device)
 {
     struct audio_device *adev = (struct audio_device *)device;
 
+#ifdef USES_AUDIO_AMPLIFIER
+    if (amplifier_close() != 0)
+        ALOGE("Amplifier close failed");
+#endif
+
     if (!adev)
         return 0;
 
@@ -3210,6 +3223,11 @@ static int adev_open(const hw_module_t *module, const char *name,
     }
 
     *device = &adev->device.common;
+
+#ifdef USES_AUDIO_AMPLIFIER
+    if (amplifier_open() != 0)
+        ALOGE("Amplifier initialization failed");
+#endif
 
     audio_device_ref_count++;
     pthread_mutex_unlock(&adev_init_lock);
