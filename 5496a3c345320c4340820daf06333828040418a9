@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "iAvz-ws",
+        "filename": "alsa_sound/AudioSessionOut.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 6385
+      },
+      "writtenOn": "2013-06-01T22:42:48Z",
+      "side": 1,
+      "message": "Where is SNDRV_COMPRESS_METADATA_MODE defined?  The kernel?  This fails to build on jf* because SNDRV_COMPRESS_METADATA_MODE is undefined.",
+      "revId": "5496a3c345320c4340820daf06333828040418a9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
