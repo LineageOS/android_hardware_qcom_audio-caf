@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "iGhIQVw",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2888,
+      "author": {
+        "id": 10
+      },
+      "writtenOn": "2013-06-01T04:34:16Z",
+      "side": 1,
+      "message": "Instead of doing this (which is too specific and I suspect we\u0027ll eventually need others), how about\n\n#ifndef CSD_CLIENT_START_VOICE\n#define CSD_CLIENT_START_VOICE \"csd_client_start_voice\"\n#endif\n\nand just do \n\ncsd_start_voice \u003d (int (*)())::dlsym(mcsd_handle,CSD_CLIENT_START_VOICE);\t\n\nhere?",
+      "revId": "32352f0c903b7e8fe4ed3ea549b271a032e4ea4f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
