@@ -34,6 +34,24 @@
       "revId": "32352f0c903b7e8fe4ed3ea549b271a032e4ea4f",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "iIhiddc",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2888,
+      "author": {
+        "id": 10
+      },
+      "writtenOn": "2013-06-01T04:40:26Z",
+      "side": 1,
+      "message": "Until they use a different function name :)",
+      "parentUuid": "iOhyEa0",
+      "revId": "32352f0c903b7e8fe4ed3ea549b271a032e4ea4f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
