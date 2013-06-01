@@ -16,6 +16,24 @@
       "revId": "32352f0c903b7e8fe4ed3ea549b271a032e4ea4f",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "iOhyEa0",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2888,
+      "author": {
+        "id": 32
+      },
+      "writtenOn": "2013-06-01T04:38:36Z",
+      "side": 1,
+      "message": "I suppose we can, but I think only Samsung is silly enough to do this :)",
+      "parentUuid": "iGhIQVw",
+      "revId": "32352f0c903b7e8fe4ed3ea549b271a032e4ea4f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
