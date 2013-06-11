@@ -86,7 +86,7 @@ static uint32_t audio_device_conv_table[][HAL_API_REV_NUM] =
 #ifdef QCOM_FM_TX_ENABLED
     { AudioSystem::DEVICE_OUT_FM_TX, AUDIO_DEVICE_OUT_FM_TX },
 #endif
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     //{ AudioSystem::DEVICE_OUT_DIRECTOUTPUT, AUDIO_DEVICE_OUT_DIRECTOUTPUT },
 #endif
 #ifdef QCOM_PROXY_DEVICE_ENABLED
