@@ -123,7 +123,7 @@ enum tty_modes {
 #define AUDIO_HW_IN_CHANNELS (AudioSystem::CHANNEL_IN_MONO) // Default audio input channel mask
 #define AUDIO_HW_IN_BUFFERSIZE 480 * 4                 // Default audio input buffer size
 #define AUDIO_HW_IN_FORMAT (AudioSystem::PCM_16_BIT)  // Default audio input sample format
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 #define AUDIO_HW_VOIP_BUFFERSIZE_8K 320
 #define AUDIO_HW_VOIP_BUFFERSIZE_16K 640
 #define AUDIO_HW_VOIP_SAMPLERATE_8K 8000
@@ -135,7 +135,7 @@ class AudioHardware : public  AudioHardwareBase
     class AudioStreamOutMSM8x60;
     class AudioSessionOutLPA;
     class AudioStreamInMSM8x60;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     class AudioStreamOutDirect;
     class AudioStreamInVoip;
 #endif
@@ -215,7 +215,7 @@ private:
     status_t    disableFM();
 #endif
     AudioStreamInMSM8x60*   getActiveInput_l();
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     AudioStreamInVoip* getActiveVoipInput_l();
 #endif
     class AudioStreamOutMSM8x60 : public AudioStreamOut {
@@ -251,7 +251,7 @@ private:
                 bool        mStandby;
                 uint32_t    mDevices;
     };
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     class AudioStreamOutDirect : public AudioStreamOut {
     public:
                             AudioStreamOutDirect();
@@ -479,7 +479,7 @@ private:
                 uint32_t    mFmRec;
                 int         mForVR;
     };
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         class AudioStreamInVoip : public AudioStreamInMSM8x60 {
     public:
         enum input_state {
@@ -539,12 +539,12 @@ private:
             uint32_t    mBluetoothIdRx;
 #endif
             AudioStreamOutMSM8x60*  mOutput;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             AudioStreamOutDirect*  mDirectOutput;
 #endif
             AudioSessionOutLPA* mOutputLPA;
             SortedVector <AudioStreamInMSM8x60*>   mInputs;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             SortedVector <AudioStreamInVoip*>   mVoipInputs;
 #endif
 #ifdef HTC_ACOUSTIC_AUDIO
@@ -558,7 +558,7 @@ private:
             int mTtyMode;
             int mNumPcmRec;
             Mutex mLock;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             int mVoipFd;
             bool mVoipInActive;
             bool mVoipOutActive;
