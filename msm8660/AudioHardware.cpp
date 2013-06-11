@@ -36,7 +36,9 @@
 #ifdef QCOM_ACDB_ENABLED
 #include <linux/msm_audio_acdb.h>
 #endif
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 #include <linux/msm_audio_mvs.h>
+#endif
 #include <sys/mman.h>
 #include "control.h"
 #include "acdb.h"
@@ -185,7 +187,7 @@ const char ** name = NULL;
 int mixer_cnt = 0;
 static uint32_t cur_tx = INVALID_DEVICE;
 static uint32_t cur_rx = INVALID_DEVICE;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 int voip_session_id = 0;
 int voip_session_mute = 0;
 #endif
@@ -245,7 +247,7 @@ enum STREAM_TYPES {
     LPA_DECODE,
 #endif
     VOICE_CALL,
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     VOIP_CALL,
 #endif
 #ifdef QCOM_FM_ENABLED
@@ -599,7 +601,7 @@ static status_t updateDeviceInfo(int rx_device,int tx_device) {
                 }
                 break;
             case VOICE_CALL:
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
             case VOIP_CALL:
 #endif
                 if(rx_device == INVALID_DEVICE || tx_device == INVALID_DEVICE)
@@ -680,7 +682,7 @@ AudioHardware::AudioHardware() :
     mOutput(0),mBluetoothVGS(false),
     mCurSndDevice(-1),
     mTtyMode(TTY_OFF), mFmFd(-1), mNumPcmRec(0)
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     , mVoipFd(-1), mVoipInActive(false), mVoipOutActive(false), mDirectOutput(0)
 #endif
 #ifdef HTC_ACOUSTIC_AUDIO
@@ -1015,7 +1017,7 @@ AudioHardware::~AudioHardware()
         closeInputStream((AudioStreamIn*)mInputs[index]);
     }
     mInputs.clear();
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     mVoipInputs.clear();
 #endif
     closeOutputStream((AudioStreamOut*)mOutput);
@@ -1049,7 +1051,7 @@ AudioStreamOut* AudioHardware::openOutputStream(
         status_t lStatus;
 
         Mutex::Autolock lock(mLock);
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         // only one output stream allowed
         if (mOutput && !((flags & AUDIO_OUTPUT_FLAG_DIRECT) && (flags & AUDIO_OUTPUT_FLAG_VOIP_RX))
                     && !(flags & AUDIO_OUTPUT_FLAG_LPA)) {
@@ -1139,11 +1141,11 @@ AudioStreamOut* AudioHardware::openOutputStream(
 void AudioHardware::closeOutputStream(AudioStreamOut* out) {
     Mutex::Autolock lock(mLock);
     if ((mOutput == 0
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         && mDirectOutput == 0
 #endif
         && mOutputLPA == 0) || ((mOutput != out)
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
          && (mDirectOutput != out)
 #endif
        && (mOutputLPA != out))) {
@@ -1153,7 +1155,7 @@ void AudioHardware::closeOutputStream(AudioStreamOut* out) {
         delete mOutput;
         mOutput = 0;
     }
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     else if (mDirectOutput == out) {
         ALOGV(" deleting  mDirectOutput \n");
         delete mDirectOutput;
@@ -1177,7 +1179,7 @@ AudioStreamIn* AudioHardware::openInputStream(
     }
 
     mLock.lock();
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     if(devices == AudioSystem::DEVICE_IN_COMMUNICATION) {
         ALOGE("Create Audio stream Voip \n");
         AudioStreamInVoip* inVoip = new AudioStreamInVoip();
@@ -1226,7 +1228,7 @@ void AudioHardware::closeInputStream(AudioStreamIn* in) {
         mLock.lock();
         mInputs.removeAt(index);
     }
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     else if ((index = mVoipInputs.indexOf((AudioStreamInVoip *)in)) >= 0) {
         ALOGV("closeInputStream mVoipInputs");
         mLock.unlock();
@@ -1276,7 +1278,7 @@ status_t AudioHardware::setMicMute_nosync(bool state)
         if(isStreamOnAndActive(VOICE_CALL)) {
              session_id = voice_session_id;
              voice_session_mute = mMicMute;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         } else if (isStreamOnAndActive(VOIP_CALL)) {
             session_id = voip_session_id;
             voip_session_mute = mMicMute;
@@ -1300,7 +1302,7 @@ status_t AudioHardware::getMicMute(bool* state)
     if(isStreamOnAndActive(VOICE_CALL)) {
           session_id = voice_session_id;
           *state = mMicMute = voice_session_mute;
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     } else if (isStreamOnAndActive(VOIP_CALL)) {
            session_id = voip_session_id;
            *state = mMicMute = voip_session_mute;
@@ -1569,7 +1571,7 @@ status_t AudioHardware::setVoiceVolume(float v)
     if(isStreamOnAndActive(VOICE_CALL)) {
         session_id = voice_session_id;
     }
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
     else if (isStreamOnAndActive(VOIP_CALL)) {
         session_id = voip_session_id;
     }
@@ -1869,7 +1871,7 @@ static status_t do_route_audio_rpc(uint32_t device,
         ALOGI("In SPEAKER_TX cur_rx = %d\n", cur_rx);
     }
 #ifdef SAMSUNG_AUDIO
-#if 0
+#ifdef QCOM_VOIP_ENABLED
     else if (device == SND_DEVICE_VOIP_HANDSET) {
         new_rx_device = DEVICE_HANDSET_VOIP_RX;
         new_tx_device = DEVICE_HANDSET_VOIP_TX;
@@ -1991,7 +1993,7 @@ static status_t do_route_audio_rpc(uint32_t device,
 #endif
 
         if((temp->dev_id != INVALID_DEVICE && temp->dev_id_tx != INVALID_DEVICE)
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         && (!isStreamOn(VOIP_CALL))
 #endif
         ) {
@@ -2342,6 +2344,7 @@ void AudioHardware::aic3254_powerdown() {
 }
 #endif
 
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 status_t AudioHardware::setupDeviceforVoipCall(bool value)
 {
 
@@ -2360,6 +2363,7 @@ status_t AudioHardware::setupDeviceforVoipCall(bool value)
 
     return NO_ERROR;
 }
+#endif
 
 status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
 {
@@ -2574,7 +2578,7 @@ status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
             ALOGD("Routing audio to Call Headset\n");
             sndDevice = SND_DEVICE_CALL_HEADSET;
         }
-#if 0
+#ifdef QCOM_VOIP_ENABLED
     } else if (mMode == AudioSystem::MODE_IN_COMMUNICATION) {
         if (sndDevice == SND_DEVICE_HANDSET) {
             ALOGD("Routing audio to VOIP handset\n");
@@ -2806,7 +2810,7 @@ status_t AudioHardware::disableFM()
       && !getNodeByStreamType(LPA_DECODE)
 #endif
         && !getNodeByStreamType(PCM_PLAY)
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         && !getNodeByStreamType(VOIP_CALL)
 #endif
         ) {
@@ -3081,7 +3085,7 @@ status_t AudioHardware::AudioStreamOutMSM8x60::standby()
 #ifdef QCOM_FM_ENABLED
        && !getNodeByStreamType(FM_RADIO)
 #endif
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
        && !getNodeByStreamType(VOIP_CALL)
 #endif
      ) {
@@ -3189,7 +3193,7 @@ status_t AudioHardware::AudioStreamOutMSM8x60::getRenderPosition(uint32_t *dspFr
     return INVALID_OPERATION;
 }
 
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 // ----------------------------------------------------------------------------
 // Audio Stream from DirectOutput thread
 // ----------------------------------------------------------------------------
@@ -4305,7 +4309,7 @@ void AudioHardware::AudioSessionOutLPA::reset()
 #ifdef QCOM_FM_ENABLED
         && !getNodeByStreamType(FM_RADIO)
 #endif
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
         && !getNodeByStreamType(VOIP_CALL)
 #endif
        ) {
@@ -4849,7 +4853,7 @@ status_t AudioHardware::AudioStreamInMSM8x60::standby()
         ALOGV("Disable device");
         deleteFromTable(PCM_REC);
         if(!getNodeByStreamType(VOICE_CALL)
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
          && !getNodeByStreamType(VOIP_CALL)
 #endif
          ) {
@@ -4948,7 +4952,7 @@ AudioHardware::AudioStreamInMSM8x60 *AudioHardware::getActiveInput_l()
     return NULL;
 }
 
-#ifdef QCOM_VOIP_ENABLED
+#ifdef WITH_QCOM_VOIP_OVER_MVS
 // ----------------------------------------------------------------------------
 //  VOIP stream class
 //.----------------------------------------------------------------------------
