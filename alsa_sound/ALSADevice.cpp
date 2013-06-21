@@ -68,10 +68,12 @@ static int (*acdb_loader_get_ecrx_device)(int acdb_id);
 #define KILL_A2DP_THREAD 1
 #define SIGNAL_A2DP_THREAD 2
 
+#ifndef CAF_LEGACY_PCM
 // Setting number of periods to 4. If the system is loaded
 // and record obtain buffer is seen increase
 // PCM_RECORD_PERIOD_COUNT to a value between 4-16.
 #define PCM_RECORD_PERIOD_COUNT 4
+#endif
 #define PROXY_CAPTURE_DEVICE_NAME (const char *)("hw:0,8")
 #define ADSP_UP_CHK_TRIES 5
 #define ADSP_UP_CHK_SLEEP 1*1000*1000
@@ -422,6 +424,7 @@ status_t ALSADevice::setHardwareParams(alsa_handle_t *handle)
 #else
     param_set_int(params, SNDRV_PCM_HW_PARAM_PERIOD_BYTES, reqBuffSize);
 #endif
+#ifndef CAF_LEGACY_PCM
     //Setting number of periods to 4. If the system is loaded and record
     // obtain buffer is seen increase PCM_RECORD_PERIOD_COUNT to a value between 4-16.
     if (!strncmp(handle->useCase, SND_USE_CASE_VERB_HIFI_REC,
@@ -430,6 +433,7 @@ status_t ALSADevice::setHardwareParams(alsa_handle_t *handle)
             strlen(SND_USE_CASE_MOD_CAPTURE_MUSIC))) {
         param_set_int(params, SNDRV_PCM_HW_PARAM_PERIODS, PCM_RECORD_PERIOD_COUNT);
     }
+#endif
     param_set_int(params, SNDRV_PCM_HW_PARAM_SAMPLE_BITS, 16);
     param_set_int(params, SNDRV_PCM_HW_PARAM_FRAME_BITS,
                    channels * 16);
