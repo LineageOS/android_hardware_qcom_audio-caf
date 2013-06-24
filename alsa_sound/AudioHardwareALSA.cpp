@@ -102,7 +102,7 @@ AudioHardwareALSA::AudioHardwareALSA() :
 {
     FILE *fp;
     char soundCardInfo[200];
-    char platform[128], baseband[128], baseband_arch[128], platformVer[128];
+    char platform[128], baseband[128], baseband_arch[128], platformVer[128], audioInit[128];
     int verNum = 0;
     struct snd_ctl_card_info *cardInfo;
 
@@ -112,7 +112,8 @@ AudioHardwareALSA::AudioHardwareALSA() :
     mVoice2CallActive = 0;
     mIsFmActive = 0;
     mDevSettingsFlag = 0;
-
+    bool audioInitDone = false;
+    int sleepRetry = 0;
 #ifdef QCOM_USBAUDIO_ENABLED
     mAudioUsbALSA = new AudioUsbALSA();
     musbPlaybackState = 0;
@@ -175,6 +176,18 @@ AudioHardwareALSA::AudioHardwareALSA() :
 
     if (mAudioUsbALSA) {
         mAudioUsbALSA->setProxySoundCard(cardInfo->card);
+    }
+
+    while (audioInitDone == false && sleepRetry < MAX_SLEEP_RETRY) {
+        property_get("qcom.audio.init", audioInit, NULL);
+        ALOGD("qcom.audio.init is set to %s\n",audioInit);
+        if (!strncmp(audioInit, "complete", sizeof("complete"))) {
+            audioInitDone = true;
+        } else {
+            ALOGD("Sleeping for 50 ms");
+            usleep(AUDIO_INIT_SLEEP_WAIT*1000);
+            sleepRetry++;
+        }
     }
 
     if (!strcmp((const char*)cardInfo->name, "msm8974-taiko-mtp-snd-card")) {
