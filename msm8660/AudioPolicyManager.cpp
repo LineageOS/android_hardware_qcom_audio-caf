@@ -18,7 +18,7 @@
  */
 
 #define LOG_TAG "AudioPolicyManager8660"
-//#define LOG_NDDEBUG 0
+#define LOG_NDEBUG 0
 
 //#define VERY_VERBOSE_LOGGING
 #ifdef VERY_VERBOSE_LOGGING
