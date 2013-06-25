@@ -116,6 +116,7 @@ class AudioHardwareALSA;
 #define FENS_KEY            "fens_enable"
 #define ST_KEY              "st_enable"
 #define INCALLMUSIC_KEY     "incall_music_enabled"
+#define AUDIO_PARAMETER_KEY_FM_VOLUME "fm_volume"
 #define ECHO_SUPRESSION     "ec_supported"
 
 #define ANC_FLAG        0x00000001
@@ -813,9 +814,6 @@ public:
      * the software mixer will emulate this capability.
      */
     virtual status_t    setMasterVolume(float volume);
-#ifdef QCOM_FM_ENABLED
-    virtual status_t    setFmVolume(float volume);
-#endif
     /**
      * setMode is called when the audio mode changes. NORMAL mode is for
      * standard audio playback, RINGTONE when a ringtone is playing, and IN_CALL
