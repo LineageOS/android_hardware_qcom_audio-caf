@@ -585,7 +585,7 @@ static int adev_get_master_volume(struct audio_hw_device *dev, float *volume) {
     return qadev->hwif->getMasterVolume(volume);
 }
 
-#ifdef QCOM_FM_ENABLED
+#if defined(QCOM_FM_ENABLED) && !defined(QCOM_NEW_FM)
 static int adev_set_fm_volume(struct audio_hw_device *dev, float volume)
 {
     struct qcom_audio_device *qadev = to_ladev(dev);
@@ -825,7 +825,7 @@ static int qcom_adev_open(const hw_module_t* module, const char* name,
     qadev->device.set_voice_volume = adev_set_voice_volume;
     qadev->device.set_master_volume = adev_set_master_volume;
     qadev->device.get_master_volume = adev_get_master_volume;
-#ifdef QCOM_FM_ENABLED
+#if defined(QCOM_FM_ENABLED) && !defined(QCOM_NEW_FM)
     qadev->device.set_fm_volume = adev_set_fm_volume;
 #endif
     qadev->device.set_mode = adev_set_mode;

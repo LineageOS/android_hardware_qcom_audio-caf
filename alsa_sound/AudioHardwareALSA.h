@@ -117,6 +117,9 @@ class AudioHardwareALSA;
 #define ST_KEY              "st_enable"
 #define INCALLMUSIC_KEY     "incall_music_enabled"
 #define ECHO_SUPRESSION     "ec_supported"
+#ifdef QCOM_NEW_FM
+#define AUDIO_PARAMETER_KEY_FM_VOLUME "fm_volume"
+#endif
 
 #define ANC_FLAG        0x00000001
 #define DMIC_FLAG       0x00000002
@@ -319,7 +322,11 @@ public:
     void     setMicMute(int state);
     void     setVoipMicMute(int state);
     void     setVoipConfig(int mode, int rate);
+#ifndef QCOM_NEW_FM
     status_t setFmVolume(int vol, alsa_handle_t *handle);
+#else
+    status_t setFmVolume(int vol);
+#endif
     void     setBtscoRate(int rate);
     status_t setLpaVolume(int vol);
     void     enableWideVoice(bool flag, uint32_t vsid = 0);
@@ -808,7 +815,7 @@ public:
      * the software mixer will emulate this capability.
      */
     virtual status_t    setMasterVolume(float volume);
-#ifdef QCOM_FM_ENABLED
+#if defined(QCOM_FM_ENABLED) && !defined(QCOM_NEW_FM)
     virtual status_t    setFmVolume(float volume);
 #endif
     /**
