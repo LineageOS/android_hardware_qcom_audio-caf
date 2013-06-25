@@ -1180,7 +1180,8 @@ AudioStreamIn* AudioHardware::openInputStream(
 
     mLock.lock();
 #ifdef QCOM_VOIP_ENABLED
-    if(devices == AudioSystem::DEVICE_IN_COMMUNICATION) {
+    // only use MVS if sample rate is less than of equal to 16k
+    if((devices == AudioSystem::DEVICE_IN_COMMUNICATION) && (*sampleRate <= AUDIO_HW_VOIP_SAMPLERATE_16K)) {
         ALOGE("Create Audio stream Voip \n");
         AudioStreamInVoip* inVoip = new AudioStreamInVoip();
         status_t lStatus = NO_ERROR;
@@ -2412,6 +2413,18 @@ status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
                     sndDevice = SND_DEVICE_ANC_HEADSET;
                 }
 #endif
+#ifdef USE_SAMSUNG_VOIP_DEVICE
+            else if (isStreamOnAndActive(VOIP_CALL)) {
+              if (outputDevices & AudioSystem::DEVICE_OUT_EARPIECE) {
+                    ALOGD("Routing audio to VOIP handset\n");
+                    sndDevice = SND_DEVICE_VOIP_HANDSET;
+              }
+              else if (outputDevices & AudioSystem::DEVICE_OUT_SPEAKER) {
+                    ALOGD("Routing audio to VOIP speaker\n");
+                    sndDevice = SND_DEVICE_VOIP_HANDSET;
+              }
+            }
+#endif
             else if (isStreamOnAndActive(PCM_PLAY)
 #ifdef QCOM_TUNNEL_LPA_ENABLED
                      || isStreamOnAndActive(LPA_DECODE)
@@ -2431,18 +2444,8 @@ status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
                 }
 #endif
                 else {
-#ifdef USE_SAMSUNG_VOIP_DEVICE
-                  if (mMode == AudioSystem::MODE_IN_COMMUNICATION) {
-                    ALOGD("Routing audio to VOIP speaker\n");
-                    sndDevice = SND_DEVICE_VOIP_SPEAKER;
-                  }
-                  else {
-#endif
                     ALOGI("Routing audio to Speaker\n");
                     sndDevice = SND_DEVICE_SPEAKER;
-#ifdef USE_SAMSUNG_VOIP_DEVICE
-                  }
-#endif
                 }
             } else {
                 ALOGI("Routing audio to Speaker (default)\n");
@@ -3469,7 +3472,7 @@ status_t AudioHardware::AudioStreamOutDirect::standby()
             ALOGD("MVS stop returned %d %d %d\n", ret, __LINE__, mHardware->mVoipFd);
            ::close(mFd);
            mFd = mHardware->mVoipFd = -1;
-           mHardware->setupDeviceforVoipCall(false);
+           //mHardware->setupDeviceforVoipCall(false);
            ALOGD("MVS driver closed %d mFd %d", __LINE__, mHardware->mVoipFd);
            voip_session_id = 0;
            voip_session_mute = 0;
@@ -5120,10 +5123,10 @@ status_t AudioHardware::AudioStreamInVoip::set(
     mFormat =  *pFormat;
     mChannels = *pChannels;
     mSampleRate = *pRate;
-    if(mSampleRate == 8000)
-       mBufferSize = 320;
-    else if(mSampleRate == 16000)
-       mBufferSize = 640;
+    if(mSampleRate == AUDIO_HW_VOIP_SAMPLERATE_8K)
+       mBufferSize = AUDIO_HW_VOIP_BUFFERSIZE_8K;
+    else if(mSampleRate == AUDIO_HW_VOIP_SAMPLERATE_16K)
+       mBufferSize = AUDIO_HW_VOIP_BUFFERSIZE_16K;
     else
     {
        ALOGE(" unsupported sample rate");
@@ -5285,7 +5288,7 @@ status_t AudioHardware::AudioStreamInVoip::standby()
             ALOGE("MVS stop returned %d \n", ret);
             ::close(mFd);
             mFd = mHardware->mVoipFd = -1;
-            mHardware->setupDeviceforVoipCall(false);
+            //mHardware->setupDeviceforVoipCall(false);
             ALOGD("MVS driver closed %d mFd %d", __LINE__, mHardware->mVoipFd);
             voip_session_id = 0;
             voip_session_mute = 0;
