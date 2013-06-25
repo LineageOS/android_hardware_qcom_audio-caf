@@ -1180,7 +1180,8 @@ AudioStreamIn* AudioHardware::openInputStream(
 
     mLock.lock();
 #ifdef QCOM_VOIP_ENABLED
-    if(devices == AudioSystem::DEVICE_IN_COMMUNICATION) {
+    // only use MVS if sample rate is less than of equal to 16k
+    if((devices == AudioSystem::DEVICE_IN_COMMUNICATION) && (*sampleRate <= AUDIO_HW_VOIP_SAMPLERATE_16K)) {
         ALOGE("Create Audio stream Voip \n");
         AudioStreamInVoip* inVoip = new AudioStreamInVoip();
         status_t lStatus = NO_ERROR;
@@ -2418,8 +2419,18 @@ status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
 #endif
               ) {
                 if (outputDevices & AudioSystem::DEVICE_OUT_EARPIECE) {
+#ifdef USE_SAMSUNG_VOIP_DEVICE
+                  if (mMode == AudioSystem::MODE_IN_COMMUNICATION) {
+                    ALOGD("Routing audio to VOIP handset\n");
+                    sndDevice = SND_DEVICE_VOIP_HANDSET;
+                  }
+                  else {
+#endif
                     ALOGI("Routing audio to Handset\n");
                     sndDevice = SND_DEVICE_HANDSET;
+#ifdef USE_SAMSUNG_VOIP_DEVICE
+                  }
+#endif
                 } else if (outputDevices & AudioSystem::DEVICE_OUT_WIRED_HEADPHONE) {
                     ALOGI("Routing audio to Speakerphone\n");
                     sndDevice = SND_DEVICE_NO_MIC_HEADSET;
@@ -5120,10 +5131,10 @@ status_t AudioHardware::AudioStreamInVoip::set(
     mFormat =  *pFormat;
     mChannels = *pChannels;
     mSampleRate = *pRate;
-    if(mSampleRate == 8000)
-       mBufferSize = 320;
-    else if(mSampleRate == 16000)
-       mBufferSize = 640;
+    if(mSampleRate == AUDIO_HW_VOIP_SAMPLERATE_8K)
+       mBufferSize = AUDIO_HW_VOIP_BUFFERSIZE_8K;
+    else if(mSampleRate == AUDIO_HW_VOIP_SAMPLERATE_16K)
+       mBufferSize = AUDIO_HW_VOIP_BUFFERSIZE_16K;
     else
     {
        ALOGE(" unsupported sample rate");
