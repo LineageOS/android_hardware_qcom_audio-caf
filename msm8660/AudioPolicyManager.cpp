@@ -598,6 +598,10 @@ AudioPolicyManagerBase::IOProfile *AudioPolicyManager::getProfileForDirectOutput
                                                                uint32_t channelMask,
                                                                audio_output_flags_t flags)
 {
+    if( !((flags & AUDIO_OUTPUT_FLAG_LPA)   ||
+          (flags & AUDIO_OUTPUT_FLAG_TUNNEL)||
+          (flags & AUDIO_OUTPUT_FLAG_VOIP_RX)) )
+        flags = AUDIO_OUTPUT_FLAG_DIRECT;
 
     for (size_t i = 0; i < mHwModules.size(); i++) {
         if (mHwModules[i]->mHandle == 0) {
@@ -607,7 +611,7 @@ AudioPolicyManagerBase::IOProfile *AudioPolicyManager::getProfileForDirectOutput
            AudioPolicyManagerBase::IOProfile *profile = mHwModules[i]->mOutputProfiles[j];
            if (isCompatibleProfile(profile, device, samplingRate, format,
                                            channelMask,
-                                           (audio_output_flags_t)(flags|AUDIO_OUTPUT_FLAG_DIRECT))) {
+                                           flags)) {
                if (mAvailableOutputDevices & profile->mSupportedDevices) {
                    return mHwModules[i]->mOutputProfiles[j];
                }
@@ -1223,7 +1227,7 @@ audio_devices_t AudioPolicyManager::getDeviceForInputSource(int inputSource)
         }
         break;
     case AUDIO_SOURCE_VOICE_COMMUNICATION:
-        device = AUDIO_DEVICE_IN_COMMUNICATION;
+        device = AudioSystem::DEVICE_IN_COMMUNICATION;
         break;
 
     case AUDIO_SOURCE_CAMCORDER:
@@ -1307,5 +1311,6 @@ void AudioPolicyManager::handleNotificationRoutingForStream(AudioSystem::stream_
         break;
     }
 }
+
 
 }; // namespace android_audio_legacy

@@ -784,7 +784,7 @@ struct qcom_audio_module HAL_MODULE_INFO_SYM = {
     module: {
         common: {
             tag: HARDWARE_MODULE_TAG,
-            module_api_version:  AUDIO_DEVICE_API_VERSION_1_0,
+            module_api_version: AUDIO_DEVICE_API_VERSION_1_0,
             hal_api_version: HARDWARE_HAL_API_VERSION,
             id: AUDIO_HARDWARE_MODULE_ID,
             name: "QCOM Audio HW HAL",
