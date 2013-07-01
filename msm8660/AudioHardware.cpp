@@ -2344,6 +2344,7 @@ void AudioHardware::aic3254_powerdown() {
 }
 #endif
 
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
 status_t AudioHardware::setupDeviceforVoipCall(bool value)
 {
 
@@ -2362,6 +2363,7 @@ status_t AudioHardware::setupDeviceforVoipCall(bool value)
 
     return NO_ERROR;
 }
+#endif
 
 status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
 {
@@ -3267,8 +3269,10 @@ status_t AudioHardware::AudioStreamOutDirect::set(
 
     mHardware->mVoipOutActive = true;
 
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
     if (mHardware->mVoipInActive)
         mHardware->setupDeviceforVoipCall(true);
+#endif
 
     return NO_ERROR;
 }
@@ -3293,8 +3297,10 @@ ssize_t AudioHardware::AudioStreamOutDirect::write(const void* buffer, size_t by
                 mFd = mHardware->mVoipFd;
 
             mHardware->mVoipOutActive = true;
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
             if (mHardware->mVoipInActive)
                 mHardware->setupDeviceforVoipCall(true);
+#endif
 
             mStandby = false;
         } else {
@@ -3340,8 +3346,10 @@ ssize_t AudioHardware::AudioStreamOutDirect::write(const void* buffer, size_t by
             }
 
             mHardware->mVoipOutActive = true;
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
             if (mHardware->mVoipInActive)
                 mHardware->setupDeviceforVoipCall(true);
+#endif
 
             // fill 2 buffers before AUDIO_START
             mStartCount = AUDIO_HW_NUM_OUT_BUF;
@@ -3469,7 +3477,9 @@ status_t AudioHardware::AudioStreamOutDirect::standby()
             ALOGD("MVS stop returned %d %d %d\n", ret, __LINE__, mHardware->mVoipFd);
            ::close(mFd);
            mFd = mHardware->mVoipFd = -1;
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
            mHardware->setupDeviceforVoipCall(false);
+#endif
            ALOGD("MVS driver closed %d mFd %d", __LINE__, mHardware->mVoipFd);
            voip_session_id = 0;
            voip_session_mute = 0;
@@ -5140,8 +5150,10 @@ status_t AudioHardware::AudioStreamInVoip::set(
     mHardware->mVoipFd = mFd;
     mHardware->mVoipInActive = true;
 
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
     if (mHardware->mVoipOutActive)
         mHardware->setupDeviceforVoipCall(true);
+#endif
 
     if (!acoustic)
         return NO_ERROR;
@@ -5285,7 +5297,9 @@ status_t AudioHardware::AudioStreamInVoip::standby()
             ALOGE("MVS stop returned %d \n", ret);
             ::close(mFd);
             mFd = mHardware->mVoipFd = -1;
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
             mHardware->setupDeviceforVoipCall(false);
+#endif
             ALOGD("MVS driver closed %d mFd %d", __LINE__, mHardware->mVoipFd);
             voip_session_id = 0;
             voip_session_mute = 0;
