@@ -182,7 +182,9 @@ public:
 
 protected:
     virtual status_t    dump(int fd, const Vector<String16>& args);
+#ifdef USE_QCOM_VOIP_SETUPDEVICE
     status_t setupDeviceforVoipCall(bool value);
+#endif
 
 private:
 
