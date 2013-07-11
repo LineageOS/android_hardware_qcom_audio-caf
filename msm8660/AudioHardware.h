@@ -182,7 +182,6 @@ public:
 
 protected:
     virtual status_t    dump(int fd, const Vector<String16>& args);
-    status_t setupDeviceforVoipCall(bool value);
 
 private:
 
