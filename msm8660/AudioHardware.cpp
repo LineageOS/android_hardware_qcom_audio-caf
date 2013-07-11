@@ -2346,25 +2346,6 @@ void AudioHardware::aic3254_powerdown() {
 }
 #endif
 
-status_t AudioHardware::setupDeviceforVoipCall(bool value)
-{
-
-    int mode = (value ? AudioSystem::MODE_IN_COMMUNICATION : AudioSystem::MODE_NORMAL);
-    if (setMode(mode) != NO_ERROR) {
-        ALOGV("setMode fails");
-        return UNKNOWN_ERROR;
-    }
-
-    if (setMicMute(!value) != NO_ERROR) {
-        ALOGV("MicMute fails");
-        return UNKNOWN_ERROR;
-    }
-
-    ALOGD("Device setup sucess for VOIP call");
-
-    return NO_ERROR;
-}
-
 status_t AudioHardware::doRouting(AudioStreamInMSM8x60 *input)
 {
     Mutex::Autolock lock(mLock);
@@ -3271,9 +3252,6 @@ status_t AudioHardware::AudioStreamOutDirect::set(
 
     mHardware->mVoipOutActive = true;
 
-    if (mHardware->mVoipInActive)
-        mHardware->setupDeviceforVoipCall(true);
-
     return NO_ERROR;
 }
 
@@ -3297,8 +3275,6 @@ ssize_t AudioHardware::AudioStreamOutDirect::write(const void* buffer, size_t by
                 mFd = mHardware->mVoipFd;
 
             mHardware->mVoipOutActive = true;
-            if (mHardware->mVoipInActive)
-                mHardware->setupDeviceforVoipCall(true);
 
             mStandby = false;
         } else {
@@ -3344,8 +3320,6 @@ ssize_t AudioHardware::AudioStreamOutDirect::write(const void* buffer, size_t by
             }
 
             mHardware->mVoipOutActive = true;
-            if (mHardware->mVoipInActive)
-                mHardware->setupDeviceforVoipCall(true);
 
             // fill 2 buffers before AUDIO_START
             mStartCount = AUDIO_HW_NUM_OUT_BUF;
@@ -3473,7 +3447,6 @@ status_t AudioHardware::AudioStreamOutDirect::standby()
             ALOGD("MVS stop returned %d %d %d\n", ret, __LINE__, mHardware->mVoipFd);
            ::close(mFd);
            mFd = mHardware->mVoipFd = -1;
-           mHardware->setupDeviceforVoipCall(false);
            ALOGD("MVS driver closed %d mFd %d", __LINE__, mHardware->mVoipFd);
            voip_session_id = 0;
            voip_session_mute = 0;
@@ -5144,9 +5117,6 @@ status_t AudioHardware::AudioStreamInVoip::set(
     mHardware->mVoipFd = mFd;
     mHardware->mVoipInActive = true;
 
-    if (mHardware->mVoipOutActive)
-        mHardware->setupDeviceforVoipCall(true);
-
     if (!acoustic)
         return NO_ERROR;
 
@@ -5289,7 +5259,6 @@ status_t AudioHardware::AudioStreamInVoip::standby()
             ALOGE("MVS stop returned %d \n", ret);
             ::close(mFd);
             mFd = mHardware->mVoipFd = -1;
-            mHardware->setupDeviceforVoipCall(false);
             ALOGD("MVS driver closed %d mFd %d", __LINE__, mHardware->mVoipFd);
             voip_session_id = 0;
             voip_session_mute = 0;
