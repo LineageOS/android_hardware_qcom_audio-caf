@@ -523,6 +523,7 @@ private:
                 uint32_t    mDevices;
                 bool        mFirstread;
                 uint32_t    mFmRec;
+                bool        mFirstSetup;
     };
 #endif
             static const uint32_t inputSamplingRates[];

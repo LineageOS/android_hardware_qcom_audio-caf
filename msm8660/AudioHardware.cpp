@@ -4962,7 +4962,7 @@ AudioHardware::AudioStreamInVoip::AudioStreamInVoip() :
     mHardware(0), mFd(-1), mState(AUDIO_INPUT_CLOSED), mRetryCount(0),
     mFormat(AUDIO_HW_IN_FORMAT), mChannels(AUDIO_HW_IN_CHANNELS),
     mSampleRate(AUDIO_HW_VOIP_SAMPLERATE_8K), mBufferSize(AUDIO_HW_VOIP_BUFFERSIZE_8K),
-    mAcoustics((AudioSystem::audio_in_acoustics)0), mDevices(0)
+    mAcoustics((AudioSystem::audio_in_acoustics)0), mDevices(0), mFirstSetup(false)
 {
 }
 
@@ -5050,6 +5050,8 @@ status_t AudioHardware::AudioStreamInVoip::set(
                 ALOGE("Cannot start mvs driver");
                 goto Error;
             }
+
+            mFirstSetup = true;
 
             ALOGV("Going to enable RX/TX device for voice stream");
 
@@ -5211,7 +5213,7 @@ status_t AudioHardware::AudioStreamInVoip::standby()
     if (!mHardware) return -1;
     ALOGE("VoipOut %d driver fd %d", mHardware->mVoipOutActive, mHardware->mVoipFd);
     mHardware->mVoipInActive = false;
-    if (mState > AUDIO_INPUT_CLOSED && !mHardware->mVoipOutActive) {
+    if (mState > AUDIO_INPUT_CLOSED && !mHardware->mVoipOutActive && !mFirstSetup) {
          ALOGE(" closing mvs driver\n");
          //Mute and disable the device.
          int ret = 0;
