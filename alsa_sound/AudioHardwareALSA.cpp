@@ -204,6 +204,7 @@ AudioHardwareALSA::AudioHardwareALSA() :
         snd_use_case_mgr_create(&mUcMgr, "snd_soc_msm", cardInfo->card);
     } else if (!strcmp((const char*)cardInfo->name, "msm8960-tabla1x-snd-card") ||
                !strcmp((const char*)cardInfo->name, "apq8064-tabla-snd-card") ||
+               !strcmp((const char*)cardInfo->name, "msm8230-tapan-snd-card") ||
                !strcmp((const char*)cardInfo->name, "msm8960-snd-card") ||
                !strcmp((const char*)cardInfo->name, "msm-snd-card")) {
         property_get("ro.board.platform", platform, "");
