@@ -170,6 +170,7 @@ ALSADevice::ALSADevice() {
             ALOGD("name %s", mSndCardInfo.name);
             if (strstr((const char*)mSndCardInfo.name, "msm8974") ||
                 strstr((const char*)mSndCardInfo.name, "msm8960") ||
+                strstr((const char*)mSndCardInfo.name, "msm8230") ||
                 strstr((const char*)mSndCardInfo.name, "msm8930") ||
                 strstr((const char*)mSndCardInfo.name, "apq8064") ) {
                 break;
