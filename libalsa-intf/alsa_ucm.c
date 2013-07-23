@@ -753,7 +753,7 @@ int use_case_index)
     if((verb_index < 0) ||
         (!strncmp(uc_mgr->card_ctxt_ptr->current_verb,
         SND_UCM_END_OF_LIST, 3))) {
-        ALOGE("Invalid current verb value: %s - %d",
+        ALOGD("Invalid current verb value: %s - %d",
             uc_mgr->card_ctxt_ptr->current_verb, verb_index);
         return -EINVAL;
     }
@@ -786,7 +786,7 @@ int use_case_index)
                 index++;
             }
             if (ret < 0) {
-                ALOGE("No valid device found: %s",ident_value);
+                ALOGD("No valid device found: %s",ident_value);
             } else {
                 if (ctrl_list[use_case_index].capability == CAP_RX) {
                     rx_id = ctrl_list[use_case_index].acdb_id;
@@ -820,14 +820,14 @@ int use_case_index)
                         if (uc_mgr->acdb_handle) {
                             acdb_send_voice_cal = dlsym(uc_mgr->acdb_handle,"acdb_loader_send_voice_cal");
                             if (acdb_send_voice_cal == NULL) {
-                                ALOGE("Voice acdb: dlsym: Error:%s Loading acdb_loader_send_voice_cal", dlerror());
+                                ALOGD("Voice acdb: dlsym: Error:%s Loading acdb_loader_send_voice_cal", dlerror());
                             } else {
                                 acdb_send_voice_cal(uc_mgr->current_rx_device,
                                         uc_mgr->current_tx_device);
                             }
                         }
                 } else {
-                    ALOGV("Voice acdb: Required acdb already pushed \
+                    ALOGD("Voice acdb: Required acdb already pushed \
                          rx id %d tx id %d", uc_mgr->current_rx_device,
                          uc_mgr->current_tx_device);
                 }
@@ -836,7 +836,7 @@ int use_case_index)
             ident_value = NULL;
         }
     } else {
-        ALOGV("No voice use case found");
+        ALOGd("No voice use case found");
         uc_mgr->current_rx_device = -1; uc_mgr->current_tx_device = -1;
         ret = -ENODEV;
     }
