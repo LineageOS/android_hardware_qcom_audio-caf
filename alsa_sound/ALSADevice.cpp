@@ -1707,7 +1707,13 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
 {
     char value[PROPERTY_VALUE_MAX];
 
+
     if (!input) {
+#ifdef JF_EARPIECE_HACK
+        if (mCallMode != AUDIO_MODE_IN_COMMUNICATION || mCallMode != AUDIO_MODE_RINGTONE) {
+            mCallMode = AUDIO_MODE_IN_CALL;
+        }
+#endif
         ALOGV("getUCMDevice for output device: devices:%x is input device:%d",devices,input);
         if (!(mDevSettingsFlag & TTY_OFF) &&
             (mCallMode == AUDIO_MODE_IN_CALL) &&
