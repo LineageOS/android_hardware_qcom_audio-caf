@@ -863,7 +863,9 @@ void ALSADevice::switchDevice(alsa_handle_t *handle, uint32_t devices, uint32_t 
 #endif
             int adjustedFlags = adjustFlagsForCsd(mDevSettingsFlag,
                     mCurRxUCMDevice);
+            csd_stop_voice();
             err = csd_enable_device(tmp_rx_id, tmp_tx_id, adjustedFlags);
+            csd_start_voice();
             if (err < 0)
             {
                 ALOGE("csd_client_disable_device failed, error %d", err);
