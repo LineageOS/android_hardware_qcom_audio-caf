@@ -2199,7 +2199,7 @@ status_t AudioHardwareALSA::enableVoiceCall(char* verb, char* modifier, int mode
     } else {
         snd_use_case_set(mUcMgr, "_enamod", modifier);
     }
-
+    sleep(1);
     status = mALSADevice->startVoiceCall(&(*it), vsid);
 
     if (status == NO_ERROR) {
