@@ -1811,8 +1811,10 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
                 return strdup(SND_USE_CASE_DEV_VOIP_EARPIECE);
             } else if (mCallMode == AUDIO_MODE_IN_CALL) {
 #else
+#ifdef JF_EARPIECE_HACK
             if (mCallMode == AUDIO_MODE_IN_CALL ||
                 mCallMode == AUDIO_MODE_IN_COMMUNICATION) {
+#endif
 #endif
                 if (shouldUseHandsetAnc(mDevSettingsFlag, mInChannels)) {
                     return strdup(SND_USE_CASE_DEV_ANC_HANDSET); /* ANC Handset RX */
@@ -1822,9 +1824,11 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
                                 SND_USE_CASE_DEV_VOC_EARPIECE_XGAIN :
                                 SND_USE_CASE_DEV_VOC_EARPIECE); /* Voice HANDSET RX */
                 }
+#ifdef JF_EARPIECE_HACK
             } else {
                 return strdup(SND_USE_CASE_DEV_EARPIECE); /* HANDSET RX */
             }
+#endif
         } else if (devices & AudioSystem::DEVICE_OUT_SPEAKER) {
 #ifdef SEPERATED_VOICE_SPEAKER
 #ifdef SEPERATED_VOIP
