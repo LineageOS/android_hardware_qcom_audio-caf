@@ -1823,7 +1823,11 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
                                 SND_USE_CASE_DEV_VOC_EARPIECE); /* Voice HANDSET RX */
                 }
             } else {
+#ifdef JF_EARPIECE_HACK
+                return strdup(SND_USE_CASE_DEV_VOC_EARPIECE);
+#else
                 return strdup(SND_USE_CASE_DEV_EARPIECE); /* HANDSET RX */
+#endif
             }
         } else if (devices & AudioSystem::DEVICE_OUT_SPEAKER) {
 #ifdef SEPERATED_VOICE_SPEAKER
