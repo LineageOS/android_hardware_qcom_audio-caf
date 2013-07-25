@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3acd31a7_08baf7e1",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T16:41:32Z",
+      "side": 1,
+      "message": "just ifdef this",
+      "revId": "7a30b1ff830599311840685809fa57e354b6565e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_e8be9bd3",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1825,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T16:41:32Z",
+      "side": 1,
+      "message": "ifdef this",
+      "revId": "7a30b1ff830599311840685809fa57e354b6565e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
