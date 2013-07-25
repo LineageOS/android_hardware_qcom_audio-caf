@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3acd31a7_289c9368",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "#ifndef hack",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_0888b721",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "#endif",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_c8aabf85",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "#ifndef hack",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_489fcf5f",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "get  rid of this",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_a8af8393",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1827,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "get rid of this",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_8895e741",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "get rid of this",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd31a7_68928b59",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 883
+      },
+      "writtenOn": "2013-07-25T17:26:42Z",
+      "side": 1,
+      "message": "move #endif down",
+      "revId": "a78dcb65a68656b0b96d19c60d848d172a03b47d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
