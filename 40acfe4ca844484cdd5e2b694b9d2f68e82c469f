@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3acd31a7_e8933b4e",
+        "filename": "alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 3075
+      },
+      "writtenOn": "2013-07-25T17:48:38Z",
+      "side": 1,
+      "message": "we have SEPERATED_VOIP defined",
+      "revId": "40acfe4ca844484cdd5e2b694b9d2f68e82c469f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
