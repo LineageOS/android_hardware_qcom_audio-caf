@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3acd31a7_4e6237da",
+        "filename": "msm8660/AudioPolicyManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 5530
+      },
+      "writtenOn": "2013-07-27T12:10:50Z",
+      "side": 1,
+      "message": "waitMs \u003d latency;",
+      "revId": "a817466f0c2be4e0417ecd6b26b343ae599f7a92",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
