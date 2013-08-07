@@ -2961,7 +2961,7 @@ void AudioHardwareALSA::extOutThreadFunc() {
         }
         if(err < 0) {
            ALOGE("ALSADevice readFromProxy returned err = %d,data = %p,\
-                    size = %ld", err, data, size);
+                    size = %d", err, data, size);
            continue;
         }
 

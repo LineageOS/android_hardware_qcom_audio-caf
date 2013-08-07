@@ -2722,7 +2722,7 @@ ssize_t  ALSADevice::readFromProxy(void **captureBuffer , ssize_t *bufferSize) {
         }
         if(mProxyParams.mX.frames > mProxyParams.mAvail) {
             mProxyParams.mFrames = mProxyParams.mAvail;
-            ALOGE("Error mProxyParams.mFrames = %d", mProxyParams.mFrames);
+            ALOGE("Error mProxyParams.mFrames = %ld", mProxyParams.mFrames);
             /* Always copy only the data thats available */
             /* case when we wake up with lesser no of bytes than 1 period */
         }
