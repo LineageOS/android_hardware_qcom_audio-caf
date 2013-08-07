@@ -1236,7 +1236,7 @@ AudioHardwareALSA::openOutputStream(uint32_t devices,
             it != mDeviceList.end(); ++it) {
                 if((!strcmp(it->useCase, SND_USE_CASE_VERB_IP_VOICECALL)) ||
                    (!strcmp(it->useCase, SND_USE_CASE_MOD_PLAY_VOIP))) {
-                    ALOGD("openOutput:  it->rxHandle %d it->handle %d",it->rxHandle,it->handle);
+                    ALOGD("openOutput:  it->rxHandle %p it->handle %p",it->rxHandle,it->handle);
                     voipstream_active = true;
                     break;
                 }
@@ -2962,7 +2962,7 @@ void AudioHardwareALSA::extOutThreadFunc() {
         err = mALSADevice->readFromProxy(&data, &size);
         if(err < 0) {
            ALOGE("ALSADevice readFromProxy returned err = %d,data = %p,\
-                    size = %ld", err, data, size);
+                    size = %d", err, data, size);
            continue;
         }
 
