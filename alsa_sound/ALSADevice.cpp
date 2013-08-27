@@ -136,6 +136,8 @@ ALSADevice::ALSADevice() {
     mA2220Mode = A2220_PATH_INCALL_RECEIVER_NSOFF;
 #endif
 
+    mInputSource = AUDIO_SOURCE_DEFAULT;
+
     ALOGD("ALSA module opened");
 }
 
@@ -1706,6 +1708,8 @@ char *ALSADevice::getUCMDeviceFromAcdbId(int acdb_id)
 char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
 {
     char value[PROPERTY_VALUE_MAX];
+
+    ALOGD("samm: mInputSource=%d", mInputSource);
 
     if (!input) {
         ALOGV("getUCMDevice for output device: devices:%x is input device:%d",devices,input);

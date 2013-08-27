@@ -1011,7 +1011,7 @@ audio_io_handle_t AudioPolicyManager::getInput(int inputSource,
     audio_io_handle_t input = 0;
     audio_devices_t device = getDeviceForInputSource(inputSource);
 
-    ALOGV("getInput() inputSource %d, samplingRate %d, format %d, channelMask %x, acoustics %x",
+    ALOGD("samm: getInput() inputSource %d, samplingRate %d, format %d, channelMask %x, acoustics %x",
           inputSource, samplingRate, format, channelMask, acoustics);
 
     if (device == AUDIO_DEVICE_NONE) {
@@ -1119,7 +1119,7 @@ status_t AudioPolicyManager::startInput(audio_io_handle_t input)
     // use Voice Recognition mode or not for this input based on input source
     int vr_enabled = inputDesc->mInputSource == AUDIO_SOURCE_VOICE_RECOGNITION ? 1 : 0;
     param.addInt(String8("vr_mode"), vr_enabled);
-    ALOGV("AudioPolicyManager::startInput(%d), setting vr_mode to %d", inputDesc->mInputSource, vr_enabled);
+    ALOGD("samm: AudioPolicyManager::startInput(%d), setting vr_mode to %d", inputDesc->mInputSource, vr_enabled);
 
     //to pass on if camcorder mode is enabled to HAL
     int camcorder_enabled = inputDesc->mInputSource == AUDIO_SOURCE_CAMCORDER ? 1 : 0;
