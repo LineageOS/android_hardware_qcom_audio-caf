@@ -218,7 +218,7 @@ ssize_t AudioStreamInALSA::read(void *buffer, ssize_t bytes)
                         }
                     }
                 }
-#if defined(QCOM_FM_ENABLED) || defined(STE_FM)
+#ifdef QCOM_FM_ENABLED
             } else if(mHandle->devices == AudioSystem::DEVICE_IN_FM_RX) {
                 strlcpy(mHandle->useCase, SND_USE_CASE_MOD_CAPTURE_FM, sizeof(mHandle->useCase));
             } else if (mHandle->devices == AudioSystem::DEVICE_IN_FM_RX_A2DP) {
@@ -299,7 +299,7 @@ ssize_t AudioStreamInALSA::read(void *buffer, ssize_t bytes)
                         }
                    }
                 }
-#if defined(QCOM_FM_ENABLED) || defined(STE_FM)
+#ifdef QCOM_FM_ENABLED
             } else if(mHandle->devices == AudioSystem::DEVICE_IN_FM_RX) {
                 strlcpy(mHandle->useCase, SND_USE_CASE_VERB_FM_REC, sizeof(mHandle->useCase));
         } else if (mHandle->devices == AudioSystem::DEVICE_IN_FM_RX_A2DP) {
