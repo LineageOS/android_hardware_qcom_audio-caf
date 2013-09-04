@@ -825,7 +825,7 @@ ALOGD("switchDevice: mCurTxUCMDevivce %s mCurRxDevDevice %s", mCurTxUCMDevice, m
     }
 #ifdef QCOM_FM_ENABLED
     if (rxDevice != NULL) {
-        setFmVolume(mFmVolume, handle);
+        setFmVolume(mFmVolume);
     }
 #endif
 
@@ -1408,7 +1408,7 @@ status_t ALSADevice::startFm(alsa_handle_t *handle)
     }
 
     mIsFmEnabled = true;
-    setFmVolume(mFmVolume, handle);
+    setFmVolume(mFmVolume);
     if (devName) {
         free(devName);
         devName = NULL;
@@ -1424,29 +1424,16 @@ Error:
     return NO_INIT;
 }
 
-status_t ALSADevice::setFmVolume(int value, alsa_handle_t *handle)
+status_t ALSADevice::setFmVolume(int value)
 {
     status_t err = NO_ERROR;
-    int ret = 0;
-    char val_str[100], *volMixerCTL;
 
     mFmVolume = value;
     if (!mIsFmEnabled) {
         return INVALID_OPERATION;
     }
 
-    strlcpy(val_str, "PlaybackVolume/",sizeof("PlaybackVolume/"));
-    strlcat(val_str, "Play FM", sizeof(val_str));
-
-    ret = snd_use_case_get(handle->ucMgr, val_str, (const char **)&volMixerCTL);
-    if (ret < 0) {
-        ALOGE("Failed to get volume mixer control: %s", val_str);
-        return NAME_NOT_FOUND;
-    } else {
-        ALOGV("volMixerCTL %s\n", volMixerCTL);
-    }
-
-    setMixerControl(volMixerCTL,value,0);
+    setMixerControl("Internal FM RX Volume",value,0);
 
     return err;
 }
