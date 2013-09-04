@@ -320,7 +320,7 @@ public:
     void     setMicMute(int state);
     void     setVoipMicMute(int state);
     void     setVoipConfig(int mode, int rate);
-    status_t setFmVolume(int vol, alsa_handle_t *handle);
+    status_t setFmVolume(int vol);
     void     setBtscoRate(int rate);
     status_t setLpaVolume(int vol);
     void     enableWideVoice(bool flag, uint32_t vsid = 0);
