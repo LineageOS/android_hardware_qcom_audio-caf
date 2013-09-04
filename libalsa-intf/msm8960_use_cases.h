@@ -280,6 +280,10 @@ static card_mapping_t card_mapping_list[] = {
 #define SND_USE_CASE_DEV_PROXY_TX     "PROXY Tx"
 #define SND_USE_CASE_DEV_USB_PROXY_RX     "USB PROXY Rx"
 #define SND_USE_CASE_DEV_USB_PROXY_TX     "USB PROXY Tx"
+#ifdef MOTOROLA_EMU_AUDIO
+#define SND_USE_CASE_DEV_DOCK_RX           "Basic Dock"
+#define SND_USE_CASE_DEV_DOCK_RX_SPEAKER   "Speaker Basic Dock"
+#endif
 #define SND_USE_CASE_DEV_SPDIF_SPEAKER     "SPDIF Speaker"
 #define SND_USE_CASE_DEV_HDMI_SPEAKER      "HDMI Speaker"
 #define SND_USE_CASE_DEV_SPDIF_HANDSET     "SPDIF Earpiece"

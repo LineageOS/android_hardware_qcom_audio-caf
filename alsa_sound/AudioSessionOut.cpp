@@ -893,6 +893,7 @@ status_t AudioSessionOutALSA::openDevice(char *useCase, bool bIsUseCase, int dev
         snd_use_case_set(mUcMgr, "_enamod", useCase);
     }
 
+#ifdef QCOM_USBAUDIO_ENABLED
     //Set Tunnel or LPA bit if the playback over usb is tunnel or Lpa
     if((devices & AudioSystem::DEVICE_OUT_ANLG_DOCK_HEADSET)||
         (devices & AudioSystem::DEVICE_OUT_DGTL_DOCK_HEADSET)){
@@ -908,6 +909,7 @@ status_t AudioSessionOutALSA::openDevice(char *useCase, bool bIsUseCase, int dev
             mParent->musbPlaybackState |= USBPLAYBACKBIT_TUNNEL;
         }
    }
+#endif
 
     status = mAlsaDevice->open(&alsa_handle);
     if(status != NO_ERROR) {
