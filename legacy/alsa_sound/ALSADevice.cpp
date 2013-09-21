@@ -29,6 +29,9 @@
 #ifdef USE_A2220
 #include <sound/a2220.h>
 #endif
+#ifdef USE_ES310
+#include <sound/es310.h>
+#endif
 
 #ifdef USES_AUDIO_AMPLIFIER
 #include <audio_amplifier.h>
@@ -141,6 +144,12 @@ ALSADevice::ALSADevice() {
     mA2220Mode = A2220_PATH_INCALL_RECEIVER_NSOFF;
 #endif
 
+#ifdef USE_ES310
+    mES310Fd = -1;
+    mES310Mode = ES310_PRESET_AUDIOPATH_DISABLE;
+    initES310(true);
+#endif
+
 #ifdef SEPERATED_AUDIO_INPUT
     mInputSource = AUDIO_SOURCE_DEFAULT;
 #endif
@@ -199,6 +208,215 @@ int ALSADevice::setA2220Mode(int mode)
         }
     }
     return rc;
+}
+#endif
+
+#ifdef USE_ES310
+int ALSADevice::initES310(bool reset) {
+    int rc = 0;
+
+    if (mES310Fd < 0) {
+        mES310Fd = ::open("/dev/audience_es310", O_RDWR);
+        if (!mES310Fd) {
+            ALOGE("%s: unable to open es310 device!", __func__);
+            return -1;
+        } else {
+            ALOGI("%s: device opened, fd=%d", __func__, mES310Fd);
+        }
+    }
+
+    if(reset) {
+        rc = ioctl(mES310Fd, ES310_RESET_CMD);
+        if (rc < 0) {
+            ALOGE("%s: failed to reset es310 device, errno=%d", __func__, errno);
+            return rc;
+        }
+    }
+
+    return rc;
+}
+
+int ALSADevice::setES310Mode(int mode)
+{
+    Mutex::Autolock autoLock(mES310Lock);
+    int rc = -1;
+
+    if (mES310Mode != mode) {
+        if (mES310Fd < 0) {
+            initES310(false);
+        }
+
+        rc = ioctl(mES310Fd, ES310_SET_CONFIG, &mode);
+        if (rc < 0)
+            ALOGE("%s: ioctl failed, errno=%d", __func__, errno);
+        else {
+            mES310Mode = mode;
+            ALOGD("%s: set mode=%d", __func__, mode);
+        }
+    }
+    return rc;
+}
+
+int ALSADevice::setES310Preset(int preset)
+{
+    Mutex::Autolock autoLock(mES310Lock);
+    int rc = -1;
+
+    if (mES310Preset != preset) {
+        if (mES310Fd < 0) {
+            initES310(false);
+        }
+
+        rc = ioctl(mES310Fd, ES310_SET_PRESET, &preset);
+        if (rc < 0)
+            ALOGE("%s: ioctl failed, errno=%d", __func__, errno);
+        else {
+            mES310Preset = preset;
+            ALOGD("%s: set preset=%d", __func__, preset);
+        }
+    }
+    return rc;
+}
+
+int ALSADevice::setES310Route(int mode, int device)
+{
+    int rc = 0;
+    bool bVRMode = false;
+    char buf[255] = "0";
+    ES310_PathID dwNewPath = ES310_PATH_SUSPEND;
+    unsigned int dwNewPreset = -1;
+
+    // get VRMode
+    property_get("audio.record.vrmode", buf, "0");
+    if (!strncmp("1", buf, 1))
+        bVRMode = 1;
+    else
+        bVRMode = 0;
+    ALOGD("VRMode:%d", bVRMode);
+
+    if (mode == AudioSystem::MODE_IN_CALL ||
+        mode == AudioSystem::MODE_RINGTONE) {
+        switch (device & AudioSystem::DEVICE_OUT_ALL) {
+        case AudioSystem::DEVICE_OUT_EARPIECE:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_INCALL_NB;
+            break;
+        case AudioSystem::DEVICE_OUT_SPEAKER:
+            dwNewPath = ES310_PATH_HANDSFREE;
+            dwNewPreset = ES310_PRESET_HANDSFREE_INCALL_NB;
+            break;
+        case AudioSystem::DEVICE_OUT_WIRED_HEADSET:
+            dwNewPath = ES310_PATH_HEADSET;
+            dwNewPreset = ES310_PRESET_HEADSET_INCALL_NB;
+            break;
+        case AudioSystem::DEVICE_OUT_WIRED_HEADPHONE:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_INCALL_NB;
+            break;
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_SCO:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_CARKIT:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_INCALL_NB;
+            break;
+        case AudioSystem::DEVICE_OUT_AUX_DIGITAL:
+        case AudioSystem::DEVICE_OUT_ANLG_DOCK_HEADSET:
+        case AudioSystem::DEVICE_OUT_DGTL_DOCK_HEADSET:
+            dwNewPath = ES310_PATH_HEADSET;
+            dwNewPreset = ES310_PRESET_HEADSET_INCALL_NB;
+            break;
+        default:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_INCALL_NB;
+            break;
+        }
+    }
+    else if (mode == AudioSystem::MODE_IN_COMMUNICATION) {
+        switch (device & AudioSystem::DEVICE_OUT_ALL) {
+        case AudioSystem::DEVICE_OUT_EARPIECE:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_VOIP_WB;
+            break;
+        case AudioSystem::DEVICE_OUT_SPEAKER:
+            dwNewPath = ES310_PATH_HANDSFREE;
+            dwNewPreset = ES310_PRESET_HANDSFREE_VOIP_WB;
+            break;
+        case AudioSystem::DEVICE_OUT_WIRED_HEADSET:
+            dwNewPath = ES310_PATH_HEADSET;
+            dwNewPreset = ES310_PRESET_HEADSET_VOIP_WB;
+            break;
+        case AudioSystem::DEVICE_OUT_WIRED_HEADPHONE:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_VOIP_WB;
+            break;
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_SCO:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_SCO_CARKIT:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES:
+        case AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_VOIP_WB;
+            break;
+        case AudioSystem::DEVICE_OUT_AUX_DIGITAL:
+        case AudioSystem::DEVICE_OUT_ANLG_DOCK_HEADSET:
+        case AudioSystem::DEVICE_OUT_DGTL_DOCK_HEADSET:
+            dwNewPath = ES310_PATH_HEADSET;
+            dwNewPreset = ES310_PRESET_HEADSET_VOIP_WB;
+            break;
+        default:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSET_VOIP_WB;
+            break;
+        }
+    }
+        else {
+        switch (device & AudioSystem::DEVICE_IN_ALL)
+        {
+        case AudioSystem::DEVICE_IN_COMMUNICATION:
+            dwNewPath = ES310_PATH_HANDSFREE;
+            dwNewPreset = ES310_PRESET_HANDSFREE_REC_WB;
+            break;
+        case AudioSystem::DEVICE_IN_AMBIENT:
+            dwNewPath = ES310_PATH_HANDSFREE;
+            dwNewPreset = ES310_PRESET_HANDSFREE_REC_WB;
+            break;
+        case AudioSystem::DEVICE_IN_BUILTIN_MIC:
+            dwNewPath = ES310_PATH_HANDSET;
+            if (bVRMode)
+                dwNewPreset = ES310_PRESET_VOICE_RECOGNIZTION_WB;
+            else
+                dwNewPreset = ES310_PRESET_HANDSFREE_REC_WB;
+            break;
+        case AudioSystem::DEVICE_IN_BLUETOOTH_SCO_HEADSET:
+            dwNewPath = ES310_PATH_HEADSET;
+            dwNewPreset = ES310_PRESET_HANDSFREE_REC_WB;
+            break;
+        case AudioSystem::DEVICE_IN_WIRED_HEADSET:
+            dwNewPath = ES310_PATH_HEADSET;
+            dwNewPreset = ES310_PRESET_HEADSET_REC_WB;
+            break;
+        case AudioSystem::DEVICE_IN_AUX_DIGITAL:
+        case AudioSystem::DEVICE_IN_VOICE_CALL:
+        case AudioSystem::DEVICE_IN_BACK_MIC:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSFREE_REC_WB;
+            break;
+        default:
+            dwNewPath = ES310_PATH_HANDSET;
+            dwNewPreset = ES310_PRESET_HANDSFREE_REC_NB;
+            break;
+        }
+    }
+
+    // set values
+    setES310Mode(dwNewPath);
+    setES310Preset(dwNewPreset);
+
+    return 0;
 }
 #endif
 
@@ -656,6 +874,13 @@ void ALSADevice::switchDevice(alsa_handle_t *handle, uint32_t devices, uint32_t 
 #ifdef USE_ES325_2MIC
             setMixerControl("ES325 2Mic Enable", 0, 0);
 #endif
+#ifdef USE_ES310
+        setMixerControl("RX1 Digital Volume",1,0);
+        setMixerControl("RX2 Digital Volume",1,0);
+        setMixerControl("RX3 Digital Volume",1,0);
+        setMixerControl("RX4 Digital Volume",1,0);
+        setMixerControl("IIR1 INP1 MUX", "ZERO");
+#endif
             err = csd_disable_device();
             if (err < 0)
             {
@@ -856,6 +1081,9 @@ void ALSADevice::switchDevice(alsa_handle_t *handle, uint32_t devices, uint32_t 
                 }
             }
 #endif
+#ifdef USE_ES310
+        setMixerControl("IIR1 INP1 MUX", "DEC2");
+#endif
 #ifdef HTC_CSDCLIENT
             if (tx_dev_id == DEVICE_BT_SCO_TX_ACDB_ID) {
                 tmp_tx_id = 1027;
@@ -887,6 +1115,11 @@ void ALSADevice::switchDevice(alsa_handle_t *handle, uint32_t devices, uint32_t 
     } else {
         setA2220Mode(A2220_PATH_INCALL_RECEIVER_NSOFF);
     }
+#endif
+
+#ifdef USE_ES310
+    ALOGI("es310: txDevice=%s rxDevice=%s", txDevice, rxDevice);
+    setES310Route(mode, devices);
 #endif
 
 #ifdef USES_AUDIO_AMPLIFIER
@@ -2024,6 +2257,14 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
                 }
 #endif
                 else {
+#ifdef USE_ES310
+                    if (mCallMode == AudioSystem::MODE_IN_CALL) {
+                        return strdup(SND_USE_CASE_DEV_VOC_LINE); /* VOICE BUILTIN-MIC TX */
+                    }
+                    else {
+                        return strdup(SND_USE_CASE_DEV_LINE); /* BUILTIN-MIC TX */
+                    }
+#endif
                     if ((rxDevice != NULL) &&
                         !strncmp(rxDevice, SND_USE_CASE_DEV_ANC_HANDSET,
                             strlen(SND_USE_CASE_DEV_ANC_HANDSET) + 1)) {
@@ -2048,6 +2289,15 @@ char* ALSADevice::getUCMDevice(uint32_t devices, int input, char *rxDevice)
             if (mInputSource == AUDIO_SOURCE_VOICE_RECOGNITION) {
                 return strdup(SND_USE_CASE_DEV_VOICE_RECOGNITION_HEADSET);
             }
+#endif
+#ifdef USE_ES310
+            if (mCallMode == AUDIO_MODE_IN_CALL ||
+                mCallMode == AUDIO_MODE_IN_COMMUNICATION)
+            {
+                ALOGV("set HeadsetMic Voice TX");
+                return strdup(SND_USE_CASE_DEV_VOC_HEADSET_MIC);
+            }
+            ALOGV("set HeadsetMic TX device");
 #endif
             return strdup(SND_USE_CASE_DEV_HEADSET); /* HEADSET TX */
 #ifdef QCOM_ANC_HEADSET_ENABLED

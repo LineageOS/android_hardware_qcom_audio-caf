@@ -126,7 +126,11 @@ extern "C" {
 #define SND_USE_CASE_DEV_HDMI		"HDMI"
 #define SND_USE_CASE_DEV_DOCK		"Dock"
 /* add new devices to end of list */
+#ifdef USE_ES310
+#undef SND_USE_CASE_DEV_HEADSET
 
+#define SND_USE_CASE_DEV_HEADSET       "HeadsetMic TX"
+#endif
 
 /*
  * Use Case Modifiers.
