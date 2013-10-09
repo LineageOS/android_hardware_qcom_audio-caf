@@ -139,7 +139,7 @@ static const uint32_t SND_DEVICE_CALL_HEADSET = 62;
 static const uint32_t DEVICE_HANDSET_RX = 0;           /* handset_rx */
 static const uint32_t DEVICE_HANDSET_TX = 1;           /* handset_tx */
 static const uint32_t DEVICE_SPEAKER_RX = 2;           /* caf: speaker_stereo_rx
-                                                          htc: speaker_mono_rx
+                                                          htc/semc: speaker_mono_rx
                                                           sam: speaker_rx */
 static const uint32_t DEVICE_SPEAKER_TX = 3;           /* caf: speaker_mono_tx
                                                           sam: speaker_tx */
@@ -154,7 +154,8 @@ static const uint32_t DEVICE_DUALMIC_HANDSET_TX = 9;   /* handset_dual_mic_endfi
 static const uint32_t DEVICE_DUALMIC_SPEAKER_TX = 10;  /* speaker_dual_mic_endfire_tx */
 static const uint32_t DEVICE_TTY_HEADSET_MONO_RX = 11; /* tty_headset_mono_rx */
 static const uint32_t DEVICE_TTY_HEADSET_MONO_TX = 12; /* tty_headset_mono_tx */
-static const uint32_t DEVICE_SPEAKER_HEADSET_RX = 13;  /* caf: headset_stereo_speaker_stereo_rx
+static const uint32_t DEVICE_SPEAKER_HEADSET_RX = 13;  /* semc: headset_speaker_mono_rx
+                                                          caf: headset_stereo_speaker_stereo_rx
                                                           htc: headset_speaker_stereo_rx
                                                           sam: speaker_headset_rx */
 static const uint32_t DEVICE_FMRADIO_STEREO_TX = 14;
@@ -665,14 +666,20 @@ AudioHardware::AudioHardware() :
 
         for(i = 0; i < dev_cnt;i++) {
             ALOGI("******* name[%d] = [%s] *********", i, (char* )name[i]);
-            if(strcmp((char* )name[i],"handset_rx") == 0)
+            if((strcmp((char* )name[i],"handset_rx") == 0) ||
+                    (strcmp((char* )name[i],"handset_skt_rx") == 0) ||
+                    (strcmp((char* )name[i],"handset_vzw_rx") == 0)
+                    (strcmp((char* )name[i],"handset_spkr_hac_rx") == 0))
                 index = DEVICE_HANDSET_RX;
             else if(strcmp((char* )name[i],"handset_tx") == 0)
                 index = DEVICE_HANDSET_TX;
-            else if((strcmp((char* )name[i],"speaker_stereo_rx") == 0) ||
-#ifndef WITH_STEREO_HW_SPEAKER
+            else if((strcmp((char* )name[i],"ringtone_speaker_mono_rx") == 0) ||
                     (strcmp((char* )name[i],"speaker_mono_rx") == 0) ||
-#endif
+                    (strcmp((char* )name[i],"xloud_speaker_mono_rx") == 0))
+                index = DEVICE_SPEAKER_RX;
+            else if((strcmp((char* )name[i],"ringtone_speaker_stereo_rx") == 0) ||
+                    (strcmp((char* )name[i],"speaker_stereo_rx") == 0) ||
+                    (strcmp((char* )name[i],"xloud_speaker_stereo_rx") == 0) ||
                     (strcmp((char* )name[i],"speaker_rx") == 0))
                 index = DEVICE_SPEAKER_RX;
             else if((strcmp((char* )name[i],"speaker_mono_tx") == 0) ||
@@ -698,11 +705,14 @@ AudioHardware::AudioHardware() :
                 index = DEVICE_TTY_HEADSET_MONO_RX;
             else if(strcmp((char* )name[i],"tty_headset_mono_tx") == 0)
                 index = DEVICE_TTY_HEADSET_MONO_TX;
-            else if(strcmp((char* )name[i],"bt_sco_rx") == 0)
+            else if((strcmp((char* )name[i],"bt_carkit_rx" == 0) ||
+                    (strcmp((char* )name[i],"bt_dsp_sco_rx" == 0) ||
+                    (strcmp((char* )name[i],"bt_sco_rx") == 0))
                 index = DEVICE_BT_SCO_RX;
             else if(strcmp((char* )name[i],"bt_sco_tx") == 0)
                 index = DEVICE_BT_SCO_TX;
-            else if((strcmp((char*)name[i],"headset_stereo_speaker_stereo_rx") == 0) ||
+            else if((strcmp((char*)name[i],"headset_speaker_mono_rx") == 0) ||
+                    (strcmp((char*)name[i],"headset_stereo_speaker_stereo_rx") == 0) ||
                     (strcmp((char*)name[i],"headset_speaker_stereo_rx") == 0) ||
                     (strcmp((char*)name[i],"speaker_headset_rx") == 0))
                 index = DEVICE_SPEAKER_HEADSET_RX;
