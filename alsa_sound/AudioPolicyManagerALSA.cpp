@@ -1983,13 +1983,6 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream,
     if (stream == AudioSystem::VOICE_CALL ||
         stream == AudioSystem::BLUETOOTH_SCO) {
         float voiceVolume;
-        // Force voice volume to max for bluetooth SCO as volume is managed by the headset
-        if (stream == AudioSystem::VOICE_CALL) {
-            voiceVolume = (float)index/(float)mStreams[stream].mIndexMax;
-        } else {
-            voiceVolume = 1.0;
-        }
-
         voiceVolume = (float)index/(float)mStreams[stream].mIndexMax;
 
         // Force voice volume to max when Vgs is set for bluetooth SCO as volume is managed by the headset
