@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa1b9901_1ac49d3e",
+        "filename": "alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2013-11-03T12:37:26Z",
+      "side": 1,
+      "message": "This second statement is redundant.",
+      "revId": "80de95204bc78e7b3911fbf31dbae4687275522c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
