@@ -146,12 +146,15 @@ LOCAL_SRC_FILES := \
   AudioStreamInALSA.cpp         \
   ALSAStreamOps.cpp             \
   audio_hw_hal.cpp              \
-  AudioUsbALSA.cpp              \
   AudioUtil.cpp                 \
   ALSADevice.cpp
 
 ifneq ($(strip $(QCOM_TUNNEL_LPA_ENABLED)),false)
     LOCAL_SRC_FILES += AudioSessionOut.cpp
+endif
+
+ifneq ($(strip $(QCOM_USBAUDIO_ENABLED)),false)
+    LOCAL_SRC_FILES += AudioUsbALSA.cpp
 endif
 
 LOCAL_STATIC_LIBRARIES := \
