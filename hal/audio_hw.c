@@ -744,6 +744,7 @@ int select_devices(struct audio_device *adev, audio_usecase_t uc_id)
 
     enable_audio_route(adev, usecase, true);
 
+#ifndef PLATFORM_MSM8960
     /* Applicable only on the targets that has external modem.
      * Enable device command should be sent to modem only after
      * enabling voice call mixer controls
@@ -752,6 +753,7 @@ int select_devices(struct audio_device *adev, audio_usecase_t uc_id)
         status = platform_switch_voice_call_usecase_route_post(adev->platform,
                                                                out_snd_device,
                                                                in_snd_device);
+#endif
 
     return status;
 }
@@ -2128,8 +2130,11 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
             ret = -EINVAL;
             goto error_open;
         }
-        if (!is_supported_format(config->offload_info.format) &&
-                !audio_extn_is_dolby_format(config->offload_info.format)) {
+        if (!is_supported_format(config->offload_info.format) 
+#ifdef DS1_DOLBY_DAP_ENABLED
+                && !audio_extn_is_dolby_format(config->offload_info.format)
+#endif
+           ) {
             ALOGE("%s: Unsupported audio format", __func__);
             ret = -EINVAL;
             goto error_open;
@@ -2152,11 +2157,13 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
         out->stream.drain = out_drain;
         out->stream.flush = out_flush;
 
+#ifdef DS1_DOLBY_DAP_ENABLED
         if (audio_extn_is_dolby_format(config->offload_info.format))
             out->compr_config.codec->id =
                 audio_extn_dolby_get_snd_codec_id(adev, out,
                                                   config->offload_info.format);
         else
+#endif
             out->compr_config.codec->id =
                 get_snd_codec_id(config->offload_info.format);
         out->compr_config.fragment_size = get_offload_buffer_size();
