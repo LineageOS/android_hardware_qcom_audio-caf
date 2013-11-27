@@ -663,8 +663,13 @@ int select_devices(struct audio_device *adev, audio_usecase_t uc_id)
      * device.
      */
     if (usecase->type == VOICE_CALL || usecase->type == VOIP_CALL) {
+#ifdef PLATFORM_MSM8960
+        disable_all_usecases_of_type(adev, usecase->type, true);
+#endif
         status = platform_switch_voice_call_device_pre(adev->platform);
+#ifndef PLATFORM_MSM8960
         disable_all_usecases_of_type(adev, VOICE_CALL, true);
+#endif
     }
 
     /* Disable current sound devices */
@@ -705,6 +710,7 @@ int select_devices(struct audio_device *adev, audio_usecase_t uc_id)
     else
         enable_audio_route(adev, usecase, true);
 
+#ifndef PLATFORM_MSM8960
     /* Applicable only on the targets that has external modem.
      * Enable device command should be sent to modem only after
      * enabling voice call mixer controls
@@ -713,6 +719,7 @@ int select_devices(struct audio_device *adev, audio_usecase_t uc_id)
         status = platform_switch_voice_call_usecase_route_post(adev->platform,
                                                                out_snd_device,
                                                                in_snd_device);
+#endif
 
     return status;
 }
