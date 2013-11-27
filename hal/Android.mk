@@ -23,6 +23,13 @@ ifneq ($(filter apq8084,$(TARGET_BOARD_PLATFORM)),)
 endif
 endif
 
+ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
+  LOCAL_CFLAGS := -DPLATFORM_MSM8960
+  ifneq ($(BOARD_HAVE_NEW_QCOM_CSDCLIENT), true)
+    AUDIO_FEATURE_DISABLED_MULTI_VOICE_SESSIONS := true
+  endif
+endif
+
 LOCAL_SRC_FILES := \
 	audio_hw.c \
 	voice.c \
@@ -60,7 +67,7 @@ ifneq ($(strip $(AUDIO_FEATURE_DISABLED_HFP)),true)
 endif
 
 ifneq ($(QC_PROP_ROOT),)
-ifneq ($(strip $(AUDIO_FEATURE_DISABLED_SSR)),true)
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_SSR)),true)
     LOCAL_CFLAGS += -DSSR_ENABLED
     LOCAL_SRC_FILES += audio_extn/ssr.c
     LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/mm-audio/surround_sound/
@@ -78,9 +85,12 @@ ifneq ($(strip $(AUDIO_FEATURE_DISABLED_INCALL_MUSIC)),true)
 endif
 endif
 
+ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_COMPRESS_VOIP)),true)
+
     LOCAL_CFLAGS += -DCOMPRESS_VOIP_ENABLED
     LOCAL_SRC_FILES += voice_extn/compress_voip.c
+endif
 endif
 
 ifneq ($(strip, $(AUDIO_FEATURE_DISABLED_SPKR_PROTECTION)),true)
@@ -97,25 +107,21 @@ ifdef MULTIPLE_HW_VARIANTS_ENABLED
   LOCAL_SRC_FILES += $(AUDIO_PLATFORM)/hw_info.c
 endif
 
+ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_COMPRESS_CAPTURE)),true)
     LOCAL_CFLAGS += -DCOMPRESS_CAPTURE_ENABLED
     LOCAL_SRC_FILES += audio_extn/compress_capture.c
 endif
+endif
 
+ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_DS1_DOLBY_DDP)),true)
     LOCAL_CFLAGS += -DDS1_DOLBY_DDP_ENABLED
     LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
     LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
     LOCAL_SRC_FILES += audio_extn/dolby.c
 endif
-
-ifneq ($(strip $(AUDIO_FEATURE_DISABLED_DS1_DOLBY_DAP)),true)
-    LOCAL_CFLAGS += -DDS1_DOLBY_DAP_ENABLED
-ifeq ($(strip $(AUDIO_FEATURE_DISABLED_DS1_DOLBY_DDP)),true)
-    LOCAL_SRC_FILES += audio_extn/dolby.c
 endif
-endif
-
 
 LOCAL_SHARED_LIBRARIES := \
 	liblog \
