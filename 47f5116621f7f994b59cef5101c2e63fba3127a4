@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa80f949_dc3ff2d4",
+        "filename": "msm7x30/AudioHardware.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2013-12-03T11:16:09Z",
+      "side": 1,
+      "message": "probably best not to reformat this section in this patchset",
+      "revId": "47f5116621f7f994b59cef5101c2e63fba3127a4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
