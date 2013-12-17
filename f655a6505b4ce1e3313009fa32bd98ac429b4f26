@@ -16,6 +16,24 @@
       "revId": "f655a6505b4ce1e3313009fa32bd98ac429b4f26",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a710552_4d20394a",
+        "filename": "legacy/msm8660/AudioPolicyManager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 6179
+      },
+      "writtenOn": "2013-12-17T17:07:43Z",
+      "side": 1,
+      "message": "Honestly, I\u0027m not sure .. I found the patch and ported it over.  Original can be found here: \n\nhttps://github.com/CyanogenMod/android_hardware_qcom_audio/commit/44e24a0ed00af92c53222d0d57e95b02f54c0f88\n\nI\u0027ll fix the spacing.",
+      "parentUuid": "5a710552_6df655d9",
+      "revId": "f655a6505b4ce1e3313009fa32bd98ac429b4f26",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
