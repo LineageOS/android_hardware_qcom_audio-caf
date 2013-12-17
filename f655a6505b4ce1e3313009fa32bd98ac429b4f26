@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a710552_6df655d9",
+        "filename": "legacy/msm8660/AudioPolicyManager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2013-12-17T16:48:18Z",
+      "side": 1,
+      "message": "y u no match spacing? also, why not do a check to see if AUDIO_DEVICE_IN_COMMUNICATION is available first as well?",
+      "revId": "f655a6505b4ce1e3313009fa32bd98ac429b4f26",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
