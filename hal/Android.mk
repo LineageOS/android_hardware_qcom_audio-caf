@@ -63,16 +63,12 @@ endif
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_MULTI_VOICE_SESSIONS)),true)
     LOCAL_CFLAGS += -DMULTI_VOICE_SESSION_ENABLED
     LOCAL_SRC_FILES += voice_extn/voice_extn.c
+    LOCAL_C_INCLUDES += $(LOCAL_PATH)/voice_extn
     LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
     LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_INCALL_MUSIC)),true)
     LOCAL_CFLAGS += -DINCALL_MUSIC_ENABLED
-endif
-
-ifneq ($(strip $(AUDIO_FEATURE_DISABLED_COMPRESS_VOIP)),true)
-    LOCAL_CFLAGS += -DCOMPRESS_VOIP_ENABLED
-    LOCAL_SRC_FILES += voice_extn/compress_voip.c
 endif
 endif
 
@@ -115,8 +111,7 @@ LOCAL_C_INCLUDES += \
 	$(call include-path-for, audio-route) \
 	$(call include-path-for, audio-effects) \
 	$(LOCAL_PATH)/$(AUDIO_PLATFORM) \
-	$(LOCAL_PATH)/audio_extn \
-	$(LOCAL_PATH)/voice_extn
+	$(LOCAL_PATH)/audio_extn
 
 ifneq ($(QC_PROP_ROOT),)
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_LISTEN)),true)

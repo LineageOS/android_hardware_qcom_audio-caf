@@ -32,7 +32,6 @@
 #include "voice.h"
 #include "platform.h"
 #include "platform_api.h"
-#include "voice_extn.h"
 
 #define AUDIO_PARAMETER_KEY_VSID        "vsid"
 #define AUDIO_PARAMETER_KEY_CALL_STATE  "call_state"
@@ -440,38 +439,8 @@ done:
     return ret;
 }
 
-void voice_extn_get_parameters(const struct audio_device *adev,
-                               struct str_parms *query,
-                               struct str_parms *reply)
-{
-    int ret;
-    char value[32]={0};
-    char *str = NULL;
-
-    ret = str_parms_get_str(query, "audio_mode", value,
-                            sizeof(value));
-    if (ret >= 0) {
-        str_parms_add_int(reply, "audio_mode", adev->mode);
-    }
-
-    ALOGV("%s: returns %s", __func__, str_parms_to_str(reply));
-}
-
-void voice_extn_out_get_parameters(struct stream_out *out,
-                                   struct str_parms *query,
-                                   struct str_parms *reply)
-{
-    voice_extn_compress_voip_out_get_parameters(out, query, reply);
-}
-
-void voice_extn_in_get_parameters(struct stream_in *in,
-                                  struct str_parms *query,
-                                  struct str_parms *reply)
-{
-    voice_extn_compress_voip_in_get_parameters(in, query, reply);
-}
-
 #ifdef INCALL_MUSIC_ENABLED
+
 int voice_extn_check_and_set_incall_music_usecase(struct audio_device *adev,
                                                   struct stream_out *out)
 {
