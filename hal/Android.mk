@@ -23,10 +23,16 @@ ifneq ($(filter apq8084,$(TARGET_BOARD_PLATFORM)),)
 endif
 endif
 
+ifneq ($(BOARD_USES_CUSTOM_AUDIO_PLATFORM_PATH),)
+  AUDIO_PLATFORM_PATH := ../../../../$(BOARD_USES_CUSTOM_AUDIO_PLATFORM_PATH)
+else
+  AUDIO_PLATFORM_PATH := $(AUDIO_PLATFORM)
+endif
+
 LOCAL_SRC_FILES := \
 	audio_hw.c \
 	voice.c \
-	$(AUDIO_PLATFORM)/platform.c
+	$(AUDIO_PLATFORM_PATH)/platform.c
 
 LOCAL_SRC_FILES += audio_extn/audio_extn.c
 
@@ -87,7 +93,7 @@ endif
 
 ifdef MULTIPLE_HW_VARIANTS_ENABLED
   LOCAL_CFLAGS += -DHW_VARIANTS_ENABLED
-  LOCAL_SRC_FILES += $(AUDIO_PLATFORM)/hw_info.c
+  LOCAL_SRC_FILES += $(AUDIO_PLATFORM_PATH)/hw_info.c
 endif
 
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_COMPRESS_CAPTURE)),true)
@@ -114,7 +120,7 @@ LOCAL_C_INCLUDES += \
 	external/tinycompress/include \
 	$(call include-path-for, audio-route) \
 	$(call include-path-for, audio-effects) \
-	$(LOCAL_PATH)/$(AUDIO_PLATFORM) \
+	$(LOCAL_PATH)/$(AUDIO_PLATFORM_PATH) \
 	$(LOCAL_PATH)/audio_extn \
 	$(LOCAL_PATH)/voice_extn
 
