@@ -57,12 +57,6 @@ struct audio_block_header
     int length;
 };
 
-
-typedef void (*acdb_deallocate_t)();
-typedef int  (*acdb_init_t)();
-typedef void (*acdb_send_audio_cal_t)(int, int);
-typedef void (*acdb_send_voice_cal_t)(int, int);
-
 typedef int (*csd_client_init_t)();
 typedef int (*csd_client_deinit_t)();
 typedef int (*csd_disable_device_t)();
