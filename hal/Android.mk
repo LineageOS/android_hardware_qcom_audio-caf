@@ -28,6 +28,12 @@ LOCAL_SRC_FILES := \
 	voice.c \
 	$(AUDIO_PLATFORM)/platform.c
 
+ifneq ($(BOARD_USES_CUSTOM_AUDIO_PLATFORM_PATH),)
+    LOCAL_SRC_FILES += ../../../../$(BOARD_USES_CUSTOM_AUDIO_PLATFORM_PATH)/customplatform.c
+else 
+    LOCAL_SRC_FILES += vendor-platform/customplatform.c
+endif
+
 LOCAL_SRC_FILES += audio_extn/audio_extn.c
 
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_ANC_HEADSET)),true)
