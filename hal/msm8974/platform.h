@@ -241,5 +241,31 @@ struct csd_data {
     start_record_t start_record;
     stop_record_t stop_record;
 };
+/* Audio calibration related functions */
+typedef void (*acdb_deallocate_t)();
+typedef int  (*acdb_init_t)();
+typedef void (*acdb_send_audio_cal_t)(int, int);
+typedef void (*acdb_send_voice_cal_t)(int, int);
+
+struct platform_data {
+    struct audio_device *adev;
+    bool fluence_in_spkr_mode;
+    bool fluence_in_voice_call;
+    bool fluence_in_voice_rec;
+    bool fluence_in_audio_rec;
+    int  fluence_type;
+    int  btsco_sample_rate;
+    bool slowtalk;
+    /* Audio calibration related functions */
+    void *acdb_handle;
+    acdb_init_t acdb_init;
+    acdb_deallocate_t acdb_deallocate;
+    acdb_send_audio_cal_t acdb_send_audio_cal;
+    acdb_send_voice_cal_t acdb_send_voice_cal;
+    
+    void *hw_info;
+    struct csd_data *csd;
+};/* Audio calibration related functions */
+
 
 #endif // QCOM_AUDIO_PLATFORM_H

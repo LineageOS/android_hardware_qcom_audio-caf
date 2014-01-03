@@ -19,15 +19,23 @@
 
 #ifndef QCOM_AUDIO_PLATFORM_API_H
 #define QCOM_AUDIO_PLATFORM_API_H
+//taken from platform.c
+#define SAMPLE_RATE_8KHZ  8000
+#define SAMPLE_RATE_16KHZ 16000
+int set_echo_reference(struct mixer *mixer, const char* ec_ref);
+#include "vendor-platform/Custom-Platform_Api.h"
+
 
 void *platform_init(struct audio_device *adev);
+
+
 void platform_deinit(void *platform);
 const char *platform_get_snd_device_name(snd_device_t snd_device);
 int platform_get_snd_device_name_extn(void *platform, snd_device_t snd_device,
                                       char *device_name);
 void platform_add_backend_name(char *mixer_path, snd_device_t snd_device);
 int platform_get_pcm_device_id(audio_usecase_t usecase, int device_type);
-int platform_send_audio_calibration(void *platform, snd_device_t snd_device);
+int platform_send_audio_calibration(void *platform, snd_device_t snd_dgevice);
 int platform_switch_voice_call_device_pre(void *platform);
 int platform_switch_voice_call_device_post(void *platform,
                                            snd_device_t out_snd_device,
