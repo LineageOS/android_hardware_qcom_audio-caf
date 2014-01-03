@@ -19,8 +19,20 @@
 
 #ifndef QCOM_AUDIO_PLATFORM_API_H
 #define QCOM_AUDIO_PLATFORM_API_H
+//taken from platform.c
+typedef void (*acdb_deallocate_t)();
+typedef int  (*acdb_init_t)();
+typedef void (*acdb_send_audio_cal_t)(int, int);
+typedef void (*acdb_send_voice_cal_t)(int, int);
+#define SAMPLE_RATE_8KHZ  8000
+#define SAMPLE_RATE_16KHZ 16000
+int set_echo_reference(struct mixer *mixer, const char* ec_ref);
+#include "vendor-platform/Custom-Platform_Api.h"
+
 
 void *platform_init(struct audio_device *adev);
+
+
 void platform_deinit(void *platform);
 const char *platform_get_snd_device_name(snd_device_t snd_device);
 int platform_get_snd_device_name_extn(void *platform, snd_device_t snd_device,

@@ -54,9 +54,6 @@
 #define RETRY_NUMBER 10
 #define RETRY_US 500000
 
-#define SAMPLE_RATE_8KHZ  8000
-#define SAMPLE_RATE_16KHZ 16000
-
 #define AUDIO_PARAMETER_KEY_FLUENCE_TYPE  "fluence"
 #define AUDIO_PARAMETER_KEY_BTSCO         "bt_samplerate"
 #define AUDIO_PARAMETER_KEY_SLOWTALK      "st_enable"
@@ -284,7 +281,7 @@ static const int acdb_device_table[SND_DEVICE_MAX] = {
 #define DEEP_BUFFER_PLATFORM_DELAY (29*1000LL)
 #define LOW_LATENCY_PLATFORM_DELAY (13*1000LL)
 
-static int set_echo_reference(struct mixer *mixer, const char* ec_ref)
+int set_echo_reference(struct mixer *mixer, const char* ec_ref)
 {
     struct mixer_ctl *ctl;
     const char *mixer_ctl_name = "EC_REF_RX";
@@ -945,6 +942,11 @@ exit:
 
 snd_device_t platform_get_input_snd_device(void *platform, audio_devices_t out_device)
 {
+    snd_device_t customdata = custom_platform_get_input_snd_device(platform, out_device);
+    if (customdata!=-2) {
+        ALOGE("entering custom CM abstraction");
+        return customdata;
+    }
     struct platform_data *my_data = (struct platform_data *)platform;
     struct audio_device *adev = my_data->adev;
     audio_source_t  source = (adev->active_input == NULL) ?
