@@ -34,6 +34,24 @@
       "revId": "9ece3c8d329509f96f1b007b3b39a45a2faf6594",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a57f1b5_d3627e16",
+        "filename": "legacy/msm7x30/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5666
+      },
+      "writtenOn": "2014-01-24T10:45:32Z",
+      "side": 0,
+      "message": "But if you say so, I\u0027ll change it back.",
+      "parentUuid": "3a57f1b5_13aa561a",
+      "revId": "9ece3c8d329509f96f1b007b3b39a45a2faf6594",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
