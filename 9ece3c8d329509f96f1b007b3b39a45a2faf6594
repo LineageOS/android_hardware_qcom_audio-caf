@@ -16,6 +16,24 @@
       "revId": "9ece3c8d329509f96f1b007b3b39a45a2faf6594",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a57f1b5_13aa561a",
+        "filename": "legacy/msm7x30/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5666
+      },
+      "writtenOn": "2014-01-24T10:44:37Z",
+      "side": 0,
+      "message": "I took it from msm8660 (https://github.com/CyanogenMod/android_hardware_qcom_audio-caf/blob/cm-11.0/legacy/msm8660/Android.mk#L77). Also, this makefile is called only if board_platform is set to msm7x30, so it simply can\u0027t be anything else.",
+      "parentUuid": "3a57f1b5_f399ba20",
+      "revId": "9ece3c8d329509f96f1b007b3b39a45a2faf6594",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
