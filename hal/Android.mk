@@ -83,7 +83,7 @@ ifneq ($(strip $(AUDIO_FEATURE_DISABLED_INCALL_MUSIC)),true)
 endif
 endif
 
-ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter msm8974 msm8226,$(TARGET_BOARD_PLATFORM)),)
 ifneq ($(strip $(AUDIO_FEATURE_DISABLED_COMPRESS_VOIP)),true)
 
     LOCAL_CFLAGS += -DCOMPRESS_VOIP_ENABLED
