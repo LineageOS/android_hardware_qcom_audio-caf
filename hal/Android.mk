@@ -69,7 +69,7 @@ ifneq ($(strip $(AUDIO_FEATURE_DISABLED_HFP)),true)
     LOCAL_SRC_FILES += audio_extn/hfp.c
 endif
 
-ifeq ($(strip $(AUDIO_FEATURE_ENABLED_SSR)),true)
+ifneq ($(strip $(AUDIO_FEATURE_DISABLED_SSR)),true)
     LOCAL_CFLAGS += -DSSR_ENABLED
     LOCAL_SRC_FILES += audio_extn/ssr.c
     LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/mm-audio/surround_sound/
