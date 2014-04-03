@@ -46,6 +46,10 @@ extern "C" {
 
 #include <hardware/hardware.h>
 
+#ifdef USE_ES310
+#include <sound/es310.h>
+#endif
+
 namespace android_audio_legacy
 {
 using android::List;
@@ -277,12 +281,49 @@ struct use_case_t {
 
 typedef List < use_case_t > ALSAUseCaseList;
 
+#ifdef USE_ES310
+class CSDCommand
+{
+public:
+    CSDCommand(int command, int rx = 0, int tx = 0, uint32_t Flag = 0)
+    {
+        cmd = command;
+        rx_id = rx;
+        tx_id = tx;
+        devSetFlag = Flag;
+    };
+    int cmd;
+    int rx_id;
+    int tx_id;
+    uint32_t devSetFlag;
+};
+#endif
+
 class ALSADevice
 {
 
 public:
-
+#ifdef USE_ES310
+    static void *csdThreadWrapper(void *me);
+    void csdThreadEntry();
+    List <CSDCommand>  CSDCmdQueue;
+    pthread_t csdThread;
+    pthread_mutex_t m_csd_mutex;
+    pthread_cond_t m_csd_cv;
+    int m_csdCmd;
+    bool m_killcsdThread;
+    enum {
+        CMD_CSD_READY = -1,
+        CMD_CSD_START_VOICE = 0,
+        CMD_CSD_END_VOICE    = 1,
+        CMD_CSD_ENABLE_DEVICE = 2,
+        CMD_CSD_DISABLE_DEVICE = 3,
+    };
+    int mPrevDevice;
+    ALSADevice(AudioHardwareALSA* parent);
+#else
     ALSADevice();
+#endif
     virtual ~ALSADevice();
 //    status_t init(alsa_device_t *module, ALSAHandleList &list);
     status_t open(alsa_handle_t *handle);
@@ -330,6 +371,10 @@ public:
     bool mSSRComplete;
     int mCurDevice;
     long avail_in_ms;
+#ifdef USE_ES310
+    friend class AudioHardwareALSA;
+    AudioHardwareALSA* mParent;
+#endif
 protected:
     friend class AudioHardwareALSA;
 private:
@@ -842,6 +887,31 @@ public:
             AudioSystem::audio_in_acoustics acoustics);
     virtual    void        closeInputStream(AudioStreamIn* in);
 
+#ifdef USE_ES310
+    static void *CSDInitThreadWrapper(void *me);//i dont know
+    pthread_t CSDInitThread; //i dont know
+    static void *AudienceThreadWrapper(void *me);
+    void AudienceThreadEntry();
+    pthread_t AudienceThread;
+    pthread_mutex_t mAudienceMutex;
+    pthread_cond_t mAudienceCV;
+    int mAudienceCmd;
+    bool mKillAudienceThread;
+    enum {
+        CMD_AUDIENCE_READY = -1,
+        CMD_AUDIENCE_WAKEUP = 0,
+    };
+    void enableAudienceloopback(int enable);
+    status_t doAudienceCodec_Init(void);
+    status_t doAudienceCodec_DeInit(void);
+    status_t doAudienceCodec_Wakeup(void);
+    status_t doRouting_Audience_Codec(int mode, int device, bool enable);
+    char* getNameByPresetID(int presetID);
+    uint32_t getCurDevice(){ return mCurDevice;};
+    bool    mAudienceCodecInit;
+    Mutex mAudioCodecLock;
+    int mLoopbackState;
+#endif
     status_t    startPlaybackOnExtOut(uint32_t activeUsecase);
     status_t    stopPlaybackOnExtOut(uint32_t activeUsecase);
     status_t    setProxyProperty(uint32_t value);
@@ -864,6 +934,7 @@ public:
 
     void pauseIfUseCaseTunnelOrLPA();
     void resumeIfUseCaseTunnelOrLPA();
+    bool         isAnyCallActive();
 
 private:
     status_t     openExtOutput(int device);
@@ -881,7 +952,6 @@ private:
     uint32_t     useCaseStringToEnum(const char *usecase);
     void         switchExtOut(int device);
     int          getmCallState(uint32_t vsid, enum call_state state);
-    bool         isAnyCallActive();
     int*         getCallStateForVSID(uint32_t vsid);
     char*        getUcmVerbForVSID(uint32_t vsid);
     char*        getUcmModForVSID(uint32_t vsid);
