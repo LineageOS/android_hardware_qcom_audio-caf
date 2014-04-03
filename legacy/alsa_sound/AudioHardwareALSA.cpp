@@ -40,6 +40,10 @@
 #include <audio_utils/resampler.h>
 #include <pthread.h>
 
+#ifdef USES_AUDIO_AMPLIFIER
+#include <audio_amplifier.h>
+#endif
+
 #include "AudioHardwareALSA.h"
 #ifdef QCOM_USBAUDIO_ENABLED
 #include "AudioUsbALSA.h"
@@ -157,7 +161,11 @@ AudioHardwareALSA::AudioHardwareALSA() :
     acdb_deallocate = NULL;
 #endif
 
+#ifdef USE_ES310
+    mALSADevice = new ALSADevice(this);
+#else
     mALSADevice = new ALSADevice();
+#endif
     if (!mALSADevice) {
         mStatus = NO_INIT;
         return;
@@ -353,6 +361,13 @@ AudioHardwareALSA::AudioHardwareALSA() :
         }
     }
 
+#ifdef USE_ES310
+    ALOGE("doAudienceCodec_Init+");
+    doAudienceCodec_Init(mALSADevice, &ALSADevice::setMixerControl,
+            &ALSADevice::setMixerControl);
+    ALOGE("doAudienceCodec_Init-");
+#endif
+
     //set default AudioParameters
     AudioParameter param;
     String8 key;
@@ -399,6 +414,10 @@ AudioHardwareALSA::AudioHardwareALSA() :
 
 AudioHardwareALSA::~AudioHardwareALSA()
 {
+#ifdef USE_ES310
+    doAudienceCodec_DeInit();
+#endif
+
     if (mUcMgr != NULL) {
         ALOGV("closing ucm instance: %u", (unsigned)mUcMgr);
         snd_use_case_mgr_close(mUcMgr);
@@ -498,13 +517,30 @@ status_t AudioHardwareALSA::setMode(int mode)
 {
     status_t status = NO_ERROR;
 
+#ifdef USE_ES310
+    if ((mMode == AUDIO_MODE_RINGTONE) &&
+        (mode == AUDIO_MODE_NORMAL)) {
+        enableAudienceloopback(0);
+        doRouting_Audience_Codec( 0, 0, false);
+    }
+#endif
+
     ALOGV("%s() mode=%d mMode=%d", __func__, mode, mMode);
 
     if (mode != mMode) {
         status = AudioHardwareBase::setMode(mode);
     }
 
+#ifdef USE_ES310
+    if (mode == AUDIO_MODE_RINGTONE) {
+        tryWakeupAudience();
+    }
+#endif
+
     if (mode == AUDIO_MODE_IN_CALL) {
+#ifdef USE_ES310
+        tryWakeupAudience();
+#endif
         if (mCallState <= CALL_INACTIVE) {
 #ifndef QCOM_MULTI_VOICE_SESSION_ENABLED
             ALOGV("%s() defaulting vsid and call state",__func__);
