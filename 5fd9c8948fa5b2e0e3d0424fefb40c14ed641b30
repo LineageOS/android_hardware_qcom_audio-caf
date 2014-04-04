@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af24918_9e30bda0",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 8640
+      },
+      "writtenOn": "2014-04-04T10:48:03Z",
+      "side": 1,
+      "message": "I don\u0027t think you want to add ifdef to these two statements that are already in effect for all other devices??\n\nIf this isn\u0027t supposed to be ifndef then remove these two",
+      "revId": "5fd9c8948fa5b2e0e3d0424fefb40c14ed641b30",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
