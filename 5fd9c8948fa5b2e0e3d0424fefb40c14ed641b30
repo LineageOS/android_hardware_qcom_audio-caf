@@ -16,6 +16,24 @@
       "revId": "5fd9c8948fa5b2e0e3d0424fefb40c14ed641b30",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_3eca4950",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-04T17:33:29Z",
+      "side": 1,
+      "message": "what a stupid mistake, sry",
+      "parentUuid": "7af24918_9e30bda0",
+      "revId": "5fd9c8948fa5b2e0e3d0424fefb40c14ed641b30",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
