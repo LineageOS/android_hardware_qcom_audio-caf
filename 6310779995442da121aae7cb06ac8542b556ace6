@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af24918_de0d2539",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8640
+      },
+      "writtenOn": "2014-04-04T08:08:23Z",
+      "side": 1,
+      "message": "wrap lines to 80 charachters\ni.e.\nerr \u003d csd_enable_device(csdcommand.rx_id, csdcommand.tx_id,\n        csdcommand.devSetFlag);",
+      "revId": "6310779995442da121aae7cb06ac8542b556ace6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_3e13695e",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 8640
+      },
+      "writtenOn": "2014-04-04T08:08:23Z",
+      "side": 1,
+      "message": "wrap lines in this block",
+      "revId": "6310779995442da121aae7cb06ac8542b556ace6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_1e102d4e",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 8640
+      },
+      "writtenOn": "2014-04-04T08:08:23Z",
+      "side": 1,
+      "message": "wrap line",
+      "revId": "6310779995442da121aae7cb06ac8542b556ace6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_fe08e12a",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1964,
+      "author": {
+        "id": 8640
+      },
+      "writtenOn": "2014-04-04T08:08:23Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "6310779995442da121aae7cb06ac8542b556ace6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_7e1df165",
+        "filename": "legacy/libalsa-intf/msm8960_use_cases.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 8640
+      },
+      "writtenOn": "2014-04-04T08:08:23Z",
+      "side": 1,
+      "message": "adjust spacing to match others in the document",
+      "revId": "6310779995442da121aae7cb06ac8542b556ace6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
