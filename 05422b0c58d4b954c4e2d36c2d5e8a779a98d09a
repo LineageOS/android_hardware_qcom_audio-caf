@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af24918_92db8c1b",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "Is this section actually necessary?",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_d2035475",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "I wonder if it might be better to extend libaudioamp to support a doRouting call as well.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_b2084893",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1889,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "This is probably unnecessary.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_12fe5c6b",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1922,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "I think you can obtain the right result here by using the correct use case instead, that or setting SEPERATED_VOICE_SPEAKER and using that use case\u0027s logic.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_f202d06e",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "It seems like you want to use the DMIC use case here, instead of declaring a custom VOICE_LINE use case. If you set up the DMIC use case correctly this section should also be unnecessary.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_52f8e47c",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "I\u0027m unsure about this as well, but it sounds like you want to fix your use cases here as well.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_f2ebf0ae",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "This code should be moved to libaudioamp.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_52d104fb",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "This code should be moved to libaudioamp.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_32cef85a",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "This code should be moved to libaudioamp.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_32f55883",
+        "filename": "legacy/alsa_sound/AudioPolicyManagerALSA.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "Does anything actually read this property?",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_92f26c99",
+        "filename": "legacy/libalsa-intf/msm8960_use_cases.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-09T10:02:33Z",
+      "side": 1,
+      "message": "Probably unnecesary if you set up your snd_soc_msm config correctly.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
