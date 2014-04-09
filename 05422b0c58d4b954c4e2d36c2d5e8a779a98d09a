@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7af24918_f28770d5",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "I think so...",
+      "parentUuid": "7af24918_92db8c1b",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_d2035475",
         "filename": "legacy/alsa_sound/ALSADevice.cpp",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-09T10:02:33Z",
       "side": 1,
       "message": "I wonder if it might be better to extend libaudioamp to support a doRouting call as well.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_1283fccd",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "I think this would make thing unnecessarily complicated because this code block uses a lot variables.",
+      "parentUuid": "7af24918_d2035475",
       "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7af24918_1235bc45",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1889,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "you\u0027re right",
+      "parentUuid": "7af24918_b2084893",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_12fe5c6b",
         "filename": "legacy/alsa_sound/ALSADevice.cpp",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2014-04-09T10:02:33Z",
       "side": 1,
       "message": "I think you can obtain the right result here by using the correct use case instead, that or setting SEPERATED_VOICE_SPEAKER and using that use case\u0027s logic.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_f2393043",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1922,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "The problem here is that neither \"SEPERATED_VOIP\" nor \"SEPERATED_VOICE_SPEAKER\" would work because I need to return SND_USE_CASE_DEV_VOC_SPEAKER if we are in communication and not in call.\n\nHow would changing the usecases help here?",
+      "parentUuid": "7af24918_12fe5c6b",
       "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "7af24918_523f4425",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "I don\u0027t see how this could be changed.\nthe conditions are totally different from the other usecases.",
+      "parentUuid": "7af24918_f202d06e",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_52f8e47c",
         "filename": "legacy/alsa_sound/ALSADevice.cpp",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2014-04-09T10:02:33Z",
       "side": 1,
       "message": "I\u0027m unsure about this as well, but it sounds like you want to fix your use cases here as well.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_323c382f",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "I don\u0027t see how this could be changed.\nthe conditions are totally different from the other usecases.\n\nBut I changed the usecase to SND_USE_CASE_DEV_VOC_HEADSET and removed the useless logging",
+      "parentUuid": "7af24918_52f8e47c",
       "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
@@ -172,6 +280,24 @@
     },
     {
       "key": {
+        "uuid": "7af24918_9249ccd3",
+        "filename": "legacy/alsa_sound/AudioPolicyManagerALSA.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "yes, libaudioamp",
+      "parentUuid": "7af24918_32f55883",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_92f26c99",
         "filename": "legacy/libalsa-intf/msm8960_use_cases.h",
         "patchSetId": 7
@@ -183,6 +309,24 @@
       "writtenOn": "2014-04-09T10:02:33Z",
       "side": 1,
       "message": "Probably unnecesary if you set up your snd_soc_msm config correctly.",
+      "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_b21688a5",
+        "filename": "legacy/libalsa-intf/msm8960_use_cases.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-09T10:52:33Z",
+      "side": 1,
+      "message": "Agreed",
+      "parentUuid": "7af24918_92f26c99",
       "revId": "05422b0c58d4b954c4e2d36c2d5e8a779a98d09a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
