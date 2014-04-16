@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af24918_340ffde2",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure you can move this section of code to libaudioamp if you extend it with a hook for a routing function if you pass the mode and devices to be switched.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_9469b18e",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "What is this for? This looks wrong...",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_141481f3",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 2137,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "You can change the usecase definition in snd_soc_msm instead of adding new use cases that are specific to your own device like this block of code is doing.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_74f985c8",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 2170,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "Same comment as above here, you can edit the existing case that would be called in this situation and change it to what VOC_HEADSET would be.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_54f609d8",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "This is kind of funny as far as initialization goes, since you pass function pointers to the mixer control function. I would still much prefer the existing libaudioamp init function implementation be extended to allow something like this though. \n\nAlso, use ALOGV or ALOGD for debugging message, not ALOGE.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_b4030db8",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "This may be completely movable to libaudioamp\u0027s shutdown functions.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_b46cad9d",
+        "filename": "legacy/alsa_sound/AudioPolicyManagerALSA.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "Might want to use the device enums instead of 0x8000 to make it more readable.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_546f2992",
+        "filename": "legacy/alsa_sound/AudioPolicyManagerALSA.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-04-16T10:51:09Z",
+      "side": 1,
+      "message": "If this property is for communication with libaudioamp you should definitely use a different mechanism.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
