@@ -52,6 +52,10 @@
 #include "audio_extn.h"
 #include "voice_extn.h"
 
+#ifdef USES_AUDIO_AMPLIFIER
+#include <audio_amplifier.h>
+#endif
+
 #include "sound/compress_params.h"
 #include "sound/asound.h"
 
@@ -2498,6 +2502,10 @@ static int adev_get_master_mute(struct audio_hw_device *dev, bool *muted)
 static int adev_set_mode(struct audio_hw_device *dev, audio_mode_t mode)
 {
     struct audio_device *adev = (struct audio_device *)dev;
+#ifdef USES_AUDIO_AMPLIFIER
+    if (amplifier_set_mode(mode) != 0)
+        ALOGE("Failed setting amplifier mode");
+#endif
     pthread_mutex_lock(&adev->lock);
     if (adev->mode != mode) {
         ALOGD("%s mode %d\n", __func__, mode);
@@ -2650,6 +2658,11 @@ static int adev_close(hw_device_t *device)
 {
     struct audio_device *adev = (struct audio_device *)device;
 
+#ifdef USES_AUDIO_AMPLIFIER
+    if (amplifier_close() != 0)
+        ALOGE("Amplifier close failed");
+#endif
+
     if (!adev)
         return 0;
 
@@ -2768,6 +2781,11 @@ static int adev_open(const hw_module_t *module, const char *name,
     }
 
     *device = &adev->device.common;
+
+#ifdef USES_AUDIO_AMPLIFIER
+    if (amplifier_open() != 0)
+        ALOGE("Amplifier initialization failed");
+#endif
 
     audio_device_ref_count++;
     pthread_mutex_unlock(&adev_init_lock);
