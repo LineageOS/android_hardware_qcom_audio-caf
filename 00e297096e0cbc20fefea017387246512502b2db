@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "7af24918_7420654a",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-16T11:33:47Z",
+      "side": 1,
+      "message": "They want it to be executed one time only.\nI don\u0027t know the reason for that though and I don\u0027t want to remove code which I understand.\n\nMaybe u have a idea?",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_141481f3",
         "filename": "legacy/alsa_sound/ALSADevice.cpp",
         "patchSetId": 9
@@ -47,6 +64,24 @@
       "writtenOn": "2014-04-16T10:51:09Z",
       "side": 1,
       "message": "You can change the usecase definition in snd_soc_msm instead of adding new use cases that are specific to your own device like this block of code is doing.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_541d690e",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 2137,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-16T11:33:47Z",
+      "side": 1,
+      "message": "As already said in the last patchset I don\u0027t see a way todo this due to the \"AUDIO_MODE_IN_CALL\"-ifelse.\n\nTell me if you have a solution in your mind.",
+      "parentUuid": "7af24918_141481f3",
       "revId": "00e297096e0cbc20fefea017387246512502b2db",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
@@ -70,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "7af24918_b41aed15",
+        "filename": "legacy/alsa_sound/ALSADevice.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 2170,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-16T11:33:47Z",
+      "side": 1,
+      "message": "same, too",
+      "parentUuid": "7af24918_74f985c8",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_54f609d8",
         "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
         "patchSetId": 9
@@ -87,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "7af24918_142be131",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-16T11:33:47Z",
+      "side": 1,
+      "message": "can you pls give an example of how you would extend the api?\nI currently don\u0027t see a way for providing access to mixerControls without these pointers.",
+      "parentUuid": "7af24918_54f609d8",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af24918_b4030db8",
         "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
         "patchSetId": 9
@@ -98,6 +169,24 @@
       "writtenOn": "2014-04-16T10:51:09Z",
       "side": 1,
       "message": "This may be completely movable to libaudioamp\u0027s shutdown functions.",
+      "revId": "00e297096e0cbc20fefea017387246512502b2db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_d43059a1",
+        "filename": "legacy/alsa_sound/AudioHardwareALSA.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5842
+      },
+      "writtenOn": "2014-04-16T11:33:47Z",
+      "side": 1,
+      "message": "This would be bad code style in my opinion because I\u0027d be initializing the codec in AudioHardareALSA and deinit it in libaudioamp then.",
+      "parentUuid": "7af24918_b4030db8",
       "revId": "00e297096e0cbc20fefea017387246512502b2db",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
