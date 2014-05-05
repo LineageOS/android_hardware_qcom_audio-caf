@@ -121,6 +121,10 @@ ifneq ($(strip $(AUDIO_FEATURE_DISABLED_DS1_DOLBY_DDP)),true)
 endif
 endif
 
+ifeq ($(strip $(AUDIO_SPEAKER_NEEDS_SEPARATE_MIXER)),true)
+    LOCAL_CFLAGS += -DSPEAKER_NEEDS_SEPARATE_MIXER
+endif
+
 LOCAL_SHARED_LIBRARIES := \
 	liblog \
 	libcutils \
