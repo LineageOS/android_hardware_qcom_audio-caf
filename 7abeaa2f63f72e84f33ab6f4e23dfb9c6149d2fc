@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afc51ec_d0e86c19",
+        "filename": "hal/msm8974/platform.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-05-05T17:13:00Z",
+      "side": 1,
+      "message": "No need to change this. Remove this from the patchset.",
+      "revId": "7abeaa2f63f72e84f33ab6f4e23dfb9c6149d2fc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afc51ec_30da7079",
+        "filename": "hal/msm8974/platform.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-05-05T17:13:00Z",
+      "side": 1,
+      "message": "Don\u0027t use a property for this, just add an ifdef. In fact it\u0027s probably fine if you don\u0027t even add one.",
+      "revId": "7abeaa2f63f72e84f33ab6f4e23dfb9c6149d2fc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afc51ec_50dd7c6f",
+        "filename": "hal/msm8974/platform.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1844,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-05-05T17:13:00Z",
+      "side": 1,
+      "message": "Removed/added the newline at the end? You should probably drop this from the patch.",
+      "revId": "7abeaa2f63f72e84f33ab6f4e23dfb9c6149d2fc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
