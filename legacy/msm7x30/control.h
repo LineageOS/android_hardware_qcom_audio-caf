@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2009, The Android Open-Source Project
- * Copyright (c) 2009-2010, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2009-2010, The Linux Foundation. All rights reserved.
  * Copyright (c) 2011-2013, The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
