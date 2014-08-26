@@ -1290,9 +1290,8 @@ bool AudioPolicyManager::isOffloadSupported(const audio_offload_info_t& offloadI
     }
 
     //check if it's multi-channel AAC format
-    if (AudioSystem::popCount(offloadInfo.channel_mask) > 2
-          && offloadInfo.format == AUDIO_FORMAT_AAC) {
-        ALOGD("copl: offload disabled for multi-channel AAC format");
+    if (AudioSystem::popCount(offloadInfo.channel_mask) > 2) {
+        ALOGD("copl: offload disabled for multi-channel");
         return false;
     }
 
