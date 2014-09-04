@@ -146,6 +146,18 @@ ifneq ($(strip $(AUDIO_FEATURE_DISABLED_MP2_OFFLOAD)),true)
 endif
 endif
 
+ifneq ($(filter msm8974 msm8226 msm8610,$(TARGET_BOARD_PLATFORM)),)
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_AEC)),true)
+    LOCAL_CFLAGS += DAEC_ENABLED
+endif
+endif
+
+ifneq ($(filter msm8974 msm8226 msm8610,$(TARGET_BOARD_PLATFORM)),)
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_NS)),true)
+    LOCAL_CFLAGS += DNS_ENABLED
+endif
+endif
+
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_MULTIPLE_TUNNEL)), true)
     LOCAL_CFLAGS += -DMULTIPLE_OFFLOAD_ENABLED
 endif
