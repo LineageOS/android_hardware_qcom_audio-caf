@@ -191,21 +191,69 @@ static char * device_table[SND_DEVICE_MAX] = {
 
     /* Capture sound devices */
     [SND_DEVICE_IN_HANDSET_MIC] = "handset-mic",
+#ifdef AEC_ENABLED
+    [SND_DEVICE_IN_HANDSET_MIC_AEC] = "handset-mic-aec",
+#else
     [SND_DEVICE_IN_HANDSET_MIC_AEC] = "handset-mic",
+#endif
+#ifdef NS_ENABLED
+    [SND_DEVICE_IN_HANDSET_MIC_NS] = "handset-mic-ns",
+#else
     [SND_DEVICE_IN_HANDSET_MIC_NS] = "handset-mic",
+#endif
+#if defined(AEC_ENABLED) || defined(NS_ENABLED)
+    [SND_DEVICE_IN_HANDSET_MIC_AEC_NS] = "handset-mic-aec-ns",
+#else
     [SND_DEVICE_IN_HANDSET_MIC_AEC_NS] = "handset-mic",
+#endif
     [SND_DEVICE_IN_HANDSET_DMIC] = "dmic-endfire",
+#ifdef AEC_ENABLED
+    [SND_DEVICE_IN_HANDSET_DMIC_AEC] = "dmic-endfire-aec",
+#else
     [SND_DEVICE_IN_HANDSET_DMIC_AEC] = "dmic-endfire",
+#endif
+#ifdef NS_ENABLED
+    [SND_DEVICE_IN_HANDSET_DMIC_NS] = "dmic-endfire-ns",
+#else
     [SND_DEVICE_IN_HANDSET_DMIC_NS] = "dmic-endfire",
+#endif
+#if defined(AEC_ENABLED) || defined(NS_ENABLED)
+    [SND_DEVICE_IN_HANDSET_DMIC_AEC_NS] = "dmic-endfire-aec-ns",
+#else
     [SND_DEVICE_IN_HANDSET_DMIC_AEC_NS] = "dmic-endfire",
+#endif
     [SND_DEVICE_IN_SPEAKER_MIC] = "speaker-mic",
+#ifdef AEC_ENABLED
+    [SND_DEVICE_IN_SPEAKER_MIC_AEC] = "speaker-mic-aec",
+#else
     [SND_DEVICE_IN_SPEAKER_MIC_AEC] = "speaker-mic",
+#endif
+#ifdef NS_ENABLED
+    [SND_DEVICE_IN_SPEAKER_MIC_NS] = "speaker-mic-ns",
+#else
     [SND_DEVICE_IN_SPEAKER_MIC_NS] = "speaker-mic",
+#endif
+#if defined(AEC_ENABLED) || defined(NS_ENABLED)
+    [SND_DEVICE_IN_SPEAKER_MIC_AEC_NS] = "speaker-mic-aec-ns",
+#else
     [SND_DEVICE_IN_SPEAKER_MIC_AEC_NS] = "speaker-mic",
+#endif
     [SND_DEVICE_IN_SPEAKER_DMIC] = "speaker-dmic-endfire",
+#ifdef AEC_ENABLED
+    [SND_DEVICE_IN_SPEAKER_DMIC_AEC] = "speaker-dmic-endfire-aec",
+#else
     [SND_DEVICE_IN_SPEAKER_DMIC_AEC] = "speaker-dmic-endfire",
+#endif
+#ifdef NS_ENABLED
+    [SND_DEVICE_IN_SPEAKER_DMIC_NS] = "speaker-dmic-endfire-ns",
+#else
     [SND_DEVICE_IN_SPEAKER_DMIC_NS] = "speaker-dmic-endfire",
+#endif
+#if defined(AEC_ENABLED) || defined(NS_ENABLED)
+    [SND_DEVICE_IN_SPEAKER_DMIC_AEC_NS] = "speaker-dmic-endfire-aec-ns",
+#else
     [SND_DEVICE_IN_SPEAKER_DMIC_AEC_NS] = "speaker-dmic-endfire",
+#endif
     [SND_DEVICE_IN_HEADSET_MIC] = "headset-mic",
     [SND_DEVICE_IN_HEADSET_MIC_FLUENCE] = "headset-mic",
     [SND_DEVICE_IN_VOICE_SPEAKER_MIC] = "voice-speaker-mic",
@@ -222,7 +270,11 @@ static char * device_table[SND_DEVICE_MAX] = {
     [SND_DEVICE_IN_VOICE_TTY_HCO_HEADSET_MIC] = "voice-tty-hco-headset-mic",
     [SND_DEVICE_IN_VOICE_REC_HEADSET_MIC] = "headset-mic",
     [SND_DEVICE_IN_VOICE_REC_MIC] = "voice-rec-mic",
+#ifdef NS_ENABLED
+    [SND_DEVICE_IN_VOICE_REC_MIC_NS] = "voice-rec-mic-ns",
+#else
     [SND_DEVICE_IN_VOICE_REC_MIC_NS] = "voice-rec-mic",
+#endif
     [SND_DEVICE_IN_VOICE_REC_DMIC_STEREO] = "voice-rec-dmic-ef",
     [SND_DEVICE_IN_VOICE_REC_DMIC_FLUENCE] = "voice-rec-dmic-ef-fluence",
     [SND_DEVICE_IN_USB_HEADSET_MIC] = "usb-headset-mic",
