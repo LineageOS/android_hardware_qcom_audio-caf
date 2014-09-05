@@ -16,6 +16,24 @@
       "revId": "661ebb46405f01b54c0f66de0d512d7e16eba54f",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1b2928_e4465fbe",
+        "filename": "hal/Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-09-05T17:11:50Z",
+      "side": 1,
+      "message": "wtf, fail",
+      "parentUuid": "7a1b2928_a43c6730",
+      "revId": "661ebb46405f01b54c0f66de0d512d7e16eba54f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
