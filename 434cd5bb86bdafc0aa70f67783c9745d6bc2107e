@@ -16,6 +16,24 @@
       "revId": "434cd5bb86bdafc0aa70f67783c9745d6bc2107e",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1b2928_410585c0",
+        "filename": "hal/msm8974/platform.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-09-05T07:39:06Z",
+      "side": 1,
+      "message": "I think you probably want OR, because if you select one without selecting the other, you may still want it to use your custom *-aec-ns (with actual NS) path when the system selects AEC + NS, rather than fall back to the default normal case.",
+      "parentUuid": "7a1b2928_e152d1dc",
+      "revId": "434cd5bb86bdafc0aa70f67783c9745d6bc2107e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
