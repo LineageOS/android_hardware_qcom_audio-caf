@@ -34,6 +34,24 @@
       "revId": "434cd5bb86bdafc0aa70f67783c9745d6bc2107e",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1b2928_810f9de0",
+        "filename": "hal/msm8974/platform.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 6351
+      },
+      "writtenOn": "2014-09-05T07:44:32Z",
+      "side": 1,
+      "message": "At the risk of making it overly complicated, wouldn\u0027t it be:\n\nif A \u0026\u0026 B then\n   use -A-B\nelse if A then\n   use-A\nelse if B then\n   use-B\nelse\n   use original\n\n?\n\nWould it make more sense to simply have 1 option to enable both since you have to deal with both anyway in a few cases when you only enable either one?",
+      "parentUuid": "7a1b2928_410585c0",
+      "revId": "434cd5bb86bdafc0aa70f67783c9745d6bc2107e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
