@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1b2928_2604d713",
+        "filename": "hal/msm8974/platform.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1802,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2014-09-10T07:57:30Z",
+      "side": 1,
+      "message": "Use spaces for indentation instead.",
+      "revId": "88939949a4ee99583bfed840116697a1544249ca",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
