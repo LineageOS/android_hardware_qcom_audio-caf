@@ -997,7 +997,7 @@ audio_io_handle_t AudioPolicyManager::getOutput(AudioSystem::stream_type stream,
     }
 #endif
 
-    ALOGD(" getOutput() device %d, stream %d, samplingRate %d, format %x, channelMask %x, flags %x ",
+    ALOGD(" getOutput() device %d, stream %d, samplingRate %d, format %x, channelMask %x, flags 0x%x ",
           device, stream, samplingRate, format, channelMask, flags);
 
 
@@ -1056,6 +1056,7 @@ audio_io_handle_t AudioPolicyManager::getOutput(AudioSystem::stream_type stream,
     // in the background.
     if ((((flags & AUDIO_OUTPUT_FLAG_COMPRESS_OFFLOAD) == 0) ||
             !isNonOffloadableEffectEnabled()) &&
+            (AudioSystem::popCount(channelMask) <= 2) && // if we have more than two chans, we don't really want a direct output
             flags & AUDIO_OUTPUT_FLAG_DIRECT) {
         profile = getProfileForDirectOutput(device,
                                            samplingRate,
