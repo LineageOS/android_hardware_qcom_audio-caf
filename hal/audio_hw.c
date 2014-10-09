@@ -1291,8 +1291,10 @@ int start_output_stream(struct stream_out *out)
         goto error_config;
     }
 
+#ifdef ULTRA_LOW_LATENCY_ENABLED
     if (out->sample_rate == 48000 && out->usecase == USECASE_AUDIO_PLAYBACK_LOW_LATENCY)
         out->usecase = USECASE_AUDIO_PLAYBACK_ULTRA_LOW_LATENCY;
+#endif
 
     out->pcm_device_id = platform_get_pcm_device_id(out->usecase, PCM_PLAYBACK);
     if (out->pcm_device_id < 0) {
@@ -2604,11 +2606,12 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
             goto error_open;
         }
 #endif
+#ifdef ULTRA_LOW_LATENCY_ENABLED
     } else if (out->flags & AUDIO_OUTPUT_FLAG_DEEP_BUFFER) {
         out->usecase = USECASE_AUDIO_PLAYBACK_DEEP_BUFFER;
         out->config = pcm_config_deep_buffer;
         out->sample_rate = out->config.rate;
-
+#endif
     } else if (out->flags & AUDIO_OUTPUT_FLAG_FAST) {
         out->usecase = USECASE_AUDIO_PLAYBACK_LOW_LATENCY;
         out->config = pcm_config_low_latency;
