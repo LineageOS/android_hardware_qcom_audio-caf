@@ -16,6 +16,24 @@
       "revId": "8ea275f05dd28e7d35dc7be3e025fa7cd8b9b21c",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a18252c_ea5e4b75",
+        "filename": "hal/audio_hw.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 2195
+      },
+      "writtenOn": "2014-10-22T17:00:36Z",
+      "side": 1,
+      "message": "We don\u0027t need it on Sony / TFA9890 so I guess that leaves only one way to find out - test on m8.",
+      "parentUuid": "5a18252c_8a0357b8",
+      "revId": "8ea275f05dd28e7d35dc7be3e025fa7cd8b9b21c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
