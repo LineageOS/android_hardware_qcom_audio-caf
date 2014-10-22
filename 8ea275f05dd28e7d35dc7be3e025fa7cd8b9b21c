@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a18252c_8a0357b8",
+        "filename": "hal/audio_hw.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 3671
+      },
+      "writtenOn": "2014-10-22T10:52:40Z",
+      "side": 1,
+      "message": "wonder if that last hook needs to be in here somewhere...",
+      "revId": "8ea275f05dd28e7d35dc7be3e025fa7cd8b9b21c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
