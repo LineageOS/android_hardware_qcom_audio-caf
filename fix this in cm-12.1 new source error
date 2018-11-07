@@ -1,0 +1,34 @@
+tall: /home/pradeep107/cm12.1/out/target/product/gucci/system/fonts/DroidSansMono.ttf
+Copying: /home/pradeep107/cm12.1/out/target/common/obj/JAVA_LIBRARIES/apache-xml_intermediates/classes-jarjar.jar
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/cneapiclient.jar
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/com.qti.dpmframework.jar
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/com.quicinc.cne.jar
+target Dex: core-libart
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/dpmapi.jar
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/imscmlibrary.jar
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/qcnvitems.jar
+Install: /home/pradeep107/cm12.1/out/target/product/gucci/system/framework/qcrilhook.jar
+target arm C: audio.primary.msm8916 <= hardware/qcom/audio-caf/msm8916/hal/msm8916/platform.c
+target arm C: audio.primary.msm8916 <= hardware/qcom/audio-caf/msm8916/hal/audio_extn/audio_extn.c
+In file included from hardware/qcom/audio-caf/msm8916/hal/msm8916/platform.c:34:0:
+hardware/qcom/audio-caf/msm8916/hal/audio_extn/audio_extn.h:367:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+In file included from hardware/qcom/audio-caf/msm8916/hal/audio_hw.h:25:0,
+                 from hardware/qcom/audio-caf/msm8916/hal/audio_extn/audio_extn.c:30:
+hardware/libhardware/include/hardware/audio_amplifier.h:113:16: warning: 'struct str_parms' declared inside parameter list [enabled by default]
+         struct str_parms *parms);
+                ^
+hardware/libhardware/include/hardware/audio_amplifier.h:113:16: warning: its scope is only this definition or declaration, which is probably not what you want [enabled by default]
+In file included from hardware/qcom/audio-caf/msm8916/hal/audio_extn/audio_extn.c:31:0:
+hardware/qcom/audio-caf/msm8916/hal/audio_extn/audio_extn.h:367:1: warning: useless storage class specifier in empty declaration [enabled by default]
+ };
+ ^
+hardware/qcom/audio-caf/msm8916/hal/msm8916/platform.c:36:32: fatal error: sound/msmcal-hwdep.h: No such file or directory
+ #include "sound/msmcal-hwdep.h"
+                                ^
+compilation terminated.
+make: *** [/home/pradeep107/cm12.1/out/target/product/gucci/obj/SHARED_LIBRARIES/audio.primary.msm8916_intermediates/msm8916/platform.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: Leaving directory `/home/pradeep107/cm12.1'
+
